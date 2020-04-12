@@ -46,6 +46,12 @@ export default new Vuex.Store({
         .add({insurer: 'sLZN4sLaKZvGC9OYTFpe', number: 'IIDL234-2', code: 'TT01', description: 'MTPLLT',
           data: { base: {fields: {from: null, period: null}}, detail: {fields:{plate: 'plateno'}}}}
         );
+    }),
+    savePolicy: firestoreAction((context: any, id: string) => {
+      return db
+        .collection('policies')
+        .doc(id)
+        .set(context.state.policy, { merge: true });
     })
   },
   modules: {

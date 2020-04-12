@@ -2,7 +2,7 @@
   <div class="hello">
     <h1>{{ msg }}</h1>Choose a product:
     <div v-if="$store.state.insurers.length > 0">
-        <v-btn @click="doSomeAction">Do some action</v-btn>
+        <v-btn @click="doSomeAction">Save policy</v-btn>
         <br />
       <v-combobox
         :v-if="$store.state.insurers"
@@ -68,7 +68,7 @@ export default class HelloWorld extends Vue {
   }
 
   doSomeAction() {
-    this.$store.dispatch("addPolicy");
+    this.$store.dispatch("savePolicy", "EOKcIGFDtisYOrpNw1Z2");
   }
 }
 </script>
