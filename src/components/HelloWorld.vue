@@ -1,8 +1,6 @@
 <template>
-  <div class="hello">
+  <div>
     <div v-if="$store.state.insurers.length > 0">
-      <v-btn @click="doSomeAction">Save policy</v-btn>
-      <br />
       <h1>{{ msg }}</h1>
       <v-combobox
         label='Choose a product'
@@ -13,12 +11,8 @@
         item-value="id"
       ></v-combobox>
       <span v-if="$store.state.product && $store.state.policy">
-        <v-combobox
-          :items="$store.state.fieldTypes[0].values"
-          label="Choose field to add"
-          item-text="name"
-          item-value="name"
-        ></v-combobox>
+        <add-field-dialog />
+        <v-btn color="primary" class="ml-3" @click="doSomeAction">Save policy</v-btn>
         <v-row>
           <v-col
             :cols="form.cols"
@@ -46,11 +40,13 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import ProductField from "@/components/ProductField.vue";
+import AddFieldDialog from "@/components/AddFieldDialog.vue";
 import { db } from "@/firebaseConfig";
 
 @Component({
   components: {
-    ProductField
+    ProductField,
+    AddFieldDialog
   }
 })
 export default class HelloWorld extends Vue {
@@ -59,7 +55,6 @@ export default class HelloWorld extends Vue {
 
   mounted() {
     this.$store.dispatch("bindInsurers");
-    this.$store.dispatch("bindFieldTypes");
   }
 
   @Watch("product")
