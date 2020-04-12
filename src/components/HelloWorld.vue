@@ -2,6 +2,8 @@
   <div class="hello">
     <h1>{{ msg }}</h1>Choose a product:
     <div v-if="$store.state.insurers.length > 0">
+        <v-btn @click="doSomeAction">Do some action</v-btn>
+        <br />
       <v-combobox
         :v-if="$store.state.insurers"
         :items="$store.state.insurers[0].products"
@@ -9,16 +11,13 @@
         item-text="name"
         item-value="id"
       ></v-combobox>
-      <span v-if="$store.state.product">
+      <span v-if="$store.state.product && $store.state.policy">
         <v-combobox
           :items="$store.state.fieldTypes[0].values"
           label="Choose field to add"
           item-text="name"
           item-value="name"
         ></v-combobox>
-        <v-btn @click="doSomeAction">Do some action</v-btn>
-        <br />
-        Refs: {{ $refs }}
         <v-row>
           <v-col
             :cols="form.cols"
@@ -65,7 +64,7 @@ export default class HelloWorld extends Vue {
   @Watch("product")
   async onProductChoose() {
     this.$store.dispatch("bindInsurerProduct", this.product.id);
-    this.$store.dispatch("getPolicy", "kNs5fj4U6QtsuPDAJDaY");
+    this.$store.dispatch("getPolicy", "EOKcIGFDtisYOrpNw1Z2");
   }
 
   doSomeAction() {

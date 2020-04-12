@@ -3,7 +3,7 @@
     <v-text-field
       :id="field.id"
       v-if="field.type === 'text'"
-      :value="data"
+      :value="$store.state.policy.data[form].fields[field.id]"
       @change="setData"
       :label="field.label"
     ></v-text-field>
@@ -11,12 +11,12 @@
       :id="field.id"
       type="number"
       v-if="field.type === 'number'"
-      :value="data"
+      :value="$store.state.policy.data[form].fields[field.id]"
       @change="setData"
       :label="field.label"
     ></v-text-field>
     <div :id="field.id" v-if="field.type === 'dropbox'">
-      <v-combobox :value="data" @change="setData" :items="list"></v-combobox>
+      <v-combobox :value="$store.state.policy.data[form].fields[field.id]" @change="setData" :items="list"></v-combobox>
     </div>
     <v-menu
       :id="field.id"
@@ -30,7 +30,7 @@
     >
       <template v-slot:activator="{ on }">
         <v-text-field
-          :value="data"
+          :value="$store.state.policy.data[form].fields[field.id]"
           @change="setData"
           :label="field.label"
           prepend-icon="event"
@@ -38,7 +38,7 @@
           v-on="on"
         ></v-text-field>
       </template>
-      <v-date-picker :value="data" @change="setData" @input="menu = false"></v-date-picker>
+      <v-date-picker :value="$store.state.policy.data[form].fields[field.id]" @change="setData" @input="menu = false"></v-date-picker>
     </v-menu>
   </div>
 </template>
@@ -74,10 +74,10 @@ export default class ProductField extends Vue {
       this.$store.state.policy &&
       this.$store.state.policy.data &&
       this.$store.state.policy.data[this.form] &&
-      this.$store.state.policy.data[this.form].field &&
-      this.$store.state.policy.data[this.form].field[this.field.id]
+      this.$store.state.policy.data[this.form].fields &&
+      this.$store.state.policy.data[this.form].fields[this.field.id]
     ) {
-      return this.$store.state.policy.data[this.form].field[this.field.id];
+      return this.$store.state.policy.data[this.form].fields[this.field.id];
     } else {
       if (this.field) {
         if (this.field.type === "date") {
