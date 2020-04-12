@@ -2,7 +2,7 @@
   <div>
     <v-text-field
       :id="field.id"
-      v-if="field.type === 'text'"
+      v-if="field.type === 'text' && visible"
       :value="$store.state.policy.data[form].fields[field.id]"
       @change="setData"
       :label="field.label"
@@ -10,7 +10,7 @@
     <v-text-field
       :id="field.id"
       type="number"
-      v-if="field.type === 'number'"
+      v-if="field.type === 'number' && visible"
       :value="$store.state.policy.data[form].fields[field.id]"
       @change="setData"
       :label="field.label"
@@ -56,15 +56,17 @@ export default class ProductField extends Vue {
   private list: Array<any> = [];
   private mydata: any;
 
-  get visible() {
-    // console.log("Current form:", this.form);
-    // try {
-    //   return eval(this.field.visible);
-    // } catch (error) {
-    //   console.error(error);
-    //   return false;
-    // }
-    return true;
+  get visible(): boolean {
+    if (this.field && this.field.visible) {
+      // console.log(this.$store.state.policy.data['base'].fields['period']=='Other')
+      try {
+        return eval(`this.$store.state.policy.${this.field.visible}`)
+      } catch (error) {
+        return true
+      }
+    } else { 
+      return true
+    }
   }
 
   get data() {

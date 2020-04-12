@@ -1,10 +1,11 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>Choose a product:
     <div v-if="$store.state.insurers.length > 0">
-        <v-btn @click="doSomeAction">Save policy</v-btn>
-        <br />
+      <v-btn @click="doSomeAction">Save policy</v-btn>
+      <br />
+      <h1>{{ msg }}</h1>
       <v-combobox
+        label='Choose a product'
         :v-if="$store.state.insurers"
         :items="$store.state.insurers[0].products"
         v-model="product"
