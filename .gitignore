@@ -5,6 +5,13 @@ node_modules
 /tests/e2e/videos/
 /tests/e2e/screenshots/
 
+# Ignore firebaseConfig
+# TODO: add this to environment
+/src/firebaseConfig.ts
+
+# Firebase cache
+.firebase
+
 # local env files
 .env.local
 .env.*.local

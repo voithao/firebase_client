@@ -1,10 +1,22 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
+      <router-link to="/">Home</router-link>|
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+    <v-app>
+      <v-content>
+        <v-container fluid>
+          <v-row>
+            <v-col cols="1"></v-col>
+            <v-col cols="10">
+              <router-view />
+            </v-col>
+            <v-col cols="1"></v-col>
+          </v-row>
+        </v-container>
+      </v-content>
+    </v-app>
   </div>
 </template>
 
