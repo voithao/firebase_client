@@ -17,8 +17,8 @@ npm run serve
 ### Compiles and minifies for production
 
 ```bash
-npm run doc
 npm run build
+npm run doc
 ```
 
 ### Run your unit tests
