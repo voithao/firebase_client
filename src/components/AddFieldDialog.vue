@@ -12,6 +12,7 @@
           <v-row>
             <v-col cols="12">
               <v-combobox
+                v-if="$store.state.fieldTypes && $store.state.fieldTypes[0]"
                 :items="$store.state.fieldTypes[0].values"
                 label="Choose field to add*"
                 item-text="name"
@@ -22,7 +23,12 @@
           </v-row>
           <v-row>
             <v-col cols="12" sm="6">
-              <v-text-field label="Field ID*" hint="you will reference field by this" persistent-hint required></v-text-field>
+              <v-text-field
+                label="Field ID*"
+                hint="you will reference field by this"
+                persistent-hint
+                required
+              ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
               <v-text-field label="Label*" hint="text label for field" required></v-text-field>
@@ -45,11 +51,10 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class AddFieldDialog extends Vue {
-  private dialog = false
+  private dialog = false;
 
   mounted() {
     this.$store.dispatch("bindFieldTypes");
   }
-
 }
 </script>
