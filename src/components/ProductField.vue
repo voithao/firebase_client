@@ -3,7 +3,7 @@
     <v-text-field
       :id="field.id"
       v-if="field.type === 'text' && visible"
-      :value="$store.state.policy.data[form].fields[field.id]"
+      :value="value"
       @change="setData"
       :label="field.label"
     ></v-text-field>
@@ -11,12 +11,12 @@
       :id="field.id"
       type="number"
       v-if="field.type === 'number' && visible"
-      :value="$store.state.policy.data[form].fields[field.id]"
+      :value="value"
       @change="setData"
       :label="field.label"
     ></v-text-field>
     <div :id="field.id" v-if="field.type === 'dropbox'">
-      <v-combobox :value="$store.state.policy.data[form].fields[field.id]" @change="setData" :items="list"></v-combobox>
+      <v-combobox :value="value" @change="setData" :items="list"></v-combobox>
     </div>
     <v-menu
       :id="field.id"
@@ -30,7 +30,7 @@
     >
       <template v-slot:activator="{ on }">
         <v-text-field
-          :value="$store.state.policy.data[form].fields[field.id]"
+          :value="value"
           @change="setData"
           :label="field.label"
           prepend-icon="event"
@@ -38,7 +38,7 @@
           v-on="on"
         ></v-text-field>
       </template>
-      <v-date-picker :value="$store.state.policy.data[form].fields[field.id]" @change="setData" @input="menu = false"></v-date-picker>
+      <v-date-picker :value="value" @change="setData" @input="menu = false"></v-date-picker>
     </v-menu>
   </div>
 </template>
@@ -60,12 +60,20 @@ export default class ProductField extends Vue {
     if (this.field && this.field.visible) {
       // console.log(this.$store.state.policy.data['base'].fields['period']=='Other')
       try {
-        return eval(`this.$store.state.policy.${this.field.visible}`)
+        return eval(`${this.prepeareFunction(this.field.visible)}`);
       } catch (error) {
-        return true
+        return true;
       }
-    } else { 
-      return true
+    } else {
+      return true;
+    }
+  }
+
+  get value(): any {
+    if (this.field.calculated === undefined) {
+      return this.$store.state.policy.data[this.form].fields[this.field.id];
+    } else {
+      return eval(`${this.prepeareFunction(this.field.calculated)}`);
     }
   }
 
@@ -97,6 +105,10 @@ export default class ProductField extends Vue {
       }
       return "";
     }
+  }
+
+  prepeareFunction(funcText: string): string {
+    return funcText.split("{{policy}}").join("this.$store.state.policy");
   }
 
   setData(data: any) {
