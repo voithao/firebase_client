@@ -51,7 +51,6 @@ import { db } from "@/firebaseConfig";
 export default class ProductField extends Vue {
   @Prop() private field!: Record<string, any>;
   @Prop() private form!: string;
-  private date: string = new Date().toISOString().substr(0, 10);
   private menu = false;
   private list: Array<any> = [];
   private mydata: any;
@@ -117,9 +116,6 @@ export default class ProductField extends Vue {
       field: this.field.id,
       value: data
     });
-    // console.log("before", this.mydata);
-    // this.mydata = data;
-    // console.log("after", this.mydata);
   }
 
   mounted() {
