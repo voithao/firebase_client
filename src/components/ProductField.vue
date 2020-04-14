@@ -16,7 +16,7 @@
       :label="field.label"
     ></v-text-field>
     <div :id="field.id" v-if="field.type === 'dropbox'">
-      <v-combobox :value="value" @change="setData" :items="list"></v-combobox>
+      <v-autocomplete :value="value" @change="setData" :return-object="false" :items="list"></v-autocomplete>
     </div>
     <v-menu
       :id="field.id"
