@@ -28,7 +28,7 @@ export class FormFieldDef {
   /** Field label for user information */
   label: string = ''
   /** Field type */
-  type: 'text' | 'number' | 'date' | 'dropbox' = 'text'
+  type: 'text' | 'number' | 'date' | 'dropbox' | 'period' = 'text'
   /** 
    * Controls field visibility. Put formula here for calcualtion
    * Example - data['base'].fields['period']==='Other'
@@ -36,8 +36,16 @@ export class FormFieldDef {
   visible: string | undefined
   /** Use to calculate field value with function */
   calculated: string | undefined
-  /** This is mandatory, if field type is 'dropbox' */
+  /** 
+   * This is mandatory, if field type is 'dropbox' or 'period'
+   * For dropbox, it contains dropbox list items
+   * For period it contains period list items
+   */
   select: SelectField | undefined
+  /**
+   * Period classifier code, which states to use toDate instead.
+   */
+  periodcode: string | undefined
 }
 
 /**

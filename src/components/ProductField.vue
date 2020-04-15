@@ -1,5 +1,6 @@
 <template>
   <div>
+    <period-field v-if="field.type === 'period' && visible" :field="field" :form="form" />
     <v-text-field
       :id="field.id"
       v-if="field.type === 'text' && visible"
@@ -46,8 +47,13 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { db } from "@/firebaseConfig";
+import PeriodField from "@/components/PeriodField.vue";
 
-@Component
+@Component({
+  components: {
+    PeriodField
+  }
+})
 export default class ProductField extends Vue {
   @Prop() private field!: Record<string, any>;
   @Prop() private form!: string;

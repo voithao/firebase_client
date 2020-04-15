@@ -1,0 +1,152 @@
+<template>
+  <div>
+    <v-menu
+      id="fromDate"
+      v-model="frommenu"
+      :close-on-content-click="false"
+      :nudge-right="40"
+      transition="scale-transition"
+      offset-y
+      min-width="290px"
+    >
+      <template v-slot:activator="{ on }">
+        <v-text-field
+          :value="fromvalue"
+          @change="setFrom"
+          label="From Date"
+          prepend-icon="event"
+          readonly
+          v-on="on"
+        ></v-text-field>
+      </template>
+      <v-date-picker :value="fromvalue" @change="setFrom" @input="frommenu = false"></v-date-picker>
+    </v-menu>
+    <div id="period">
+      <v-autocomplete :value="periodvalue" @change="setPeriod" :return-object="false" :items="list"></v-autocomplete>
+    </div>
+    <v-menu
+      id="toDate"
+      v-if="fieldvalue.period===field.periodcode"
+      v-model="tomenu"
+      :close-on-content-click="false"
+      :nudge-right="40"
+      transition="scale-transition"
+      offset-y
+      min-width="290px"
+    >
+      <template v-slot:activator="{ on }">
+        <v-text-field
+          :value="tovalue"
+          @change="setTo"
+          label="To Date"
+          prepend-icon="event"
+          readonly
+          v-on="on"
+        ></v-text-field>
+      </template>
+      <v-date-picker :value="tovalue" @change="setTo" @input="tomenu = false"></v-date-picker>
+    </v-menu>
+    <v-text-field :value="daysValue" id="days" type="number" label="Days" readonly></v-text-field>
+  </div>
+</template>
+
+<script lang="ts">
+import moment from "moment";
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { db } from "@/firebaseConfig";
+
+@Component
+export default class PeriodField extends Vue {
+  @Prop() private field!: Record<string, any>;
+  @Prop() private form!: string;
+  private frommenu = false;
+  private tomenu = false;
+  private list: Array<any> = [];
+  private mydata: any;
+  private fieldvalue = {
+    from: new Date().toISOString().substr(0, 10),
+    period: "YEAR",
+    to: moment(moment())
+      .add(1, "years")
+      .toISOString()
+      .substr(0, 10)
+  };
+
+  // We use different getter setter because default values
+  // anyway are different & getters does not like parameters.
+  get periodvalue() {
+    this.prepeareFieldValue();
+    return this.fieldvalue.period;
+  }
+
+  get fromvalue() {
+    this.prepeareFieldValue();
+    return this.fieldvalue.from;
+  }
+
+  get tovalue() {
+    this.prepeareFieldValue();
+    return this.fieldvalue.to;
+  }
+
+  get daysValue() {
+    //String(dateTo.diff(dateFrom, 'days') + 1)
+    return (
+      moment(this.fieldvalue.to).diff(moment(this.fieldvalue.from), "days") + 1
+    );
+  }
+
+  setPeriod(value: string) {
+    this.fieldvalue.period = value;
+    this.setData(this.fieldvalue);
+  }
+
+  setFrom(value: string) {
+    this.fieldvalue.from = value;
+    this.setData(this.fieldvalue);
+  }
+
+  setTo(value: string) {
+    this.fieldvalue.to = value;
+    this.setData(this.fieldvalue);
+  }
+
+  setData(data: any) {
+    this.$store.commit("setPolicyField", {
+      form: this.form,
+      field: this.field.id,
+      value: data
+    });
+  }
+
+  prepeareFieldValue() {
+    const storevalue = this.$store.state.policy.data[this.form].fields[
+      this.field.id
+    ];
+    if (storevalue !== undefined) {
+      this.fieldvalue = storevalue;
+    }
+  }
+
+  mounted() {
+    // Read classifier if combo
+    if (
+      this.field.type === "period" &&
+      this.field.select &&
+      this.field.select.type === "classifier" &&
+      this.field.select.params &&
+      this.field.select.params.name
+    ) {
+      db.collection("classifier")
+        .where("name", "==", this.field.select.params.name)
+        .get()
+        .then(querySnapshot => {
+          const data = querySnapshot.docs.map(doc => doc.data());
+          if (data.length > 0 && data[0].values) {
+            this.list = data[0].values;
+          }
+        });
+    }
+  }
+}
+</script>
