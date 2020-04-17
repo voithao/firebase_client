@@ -153,6 +153,13 @@ export default class PeriodField extends Vue {
     });
   }
 
+  addPeriod() {
+    this.fieldvalue.to = moment(moment())
+      .add(1, "years")
+      .toISOString()
+      .substr(0, 10)
+  }
+  
   prepeareFieldValue() {
     const storevalue = this.$store.state.policy.data[this.form].fields[
       this.field.id

@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { vuexfireMutations, firestoreAction } from 'vuexfire'
+import { firestore } from 'firebase'
 import { db } from '@/firebaseConfig'
 import { Classifier } from '@/schemas/classifier'
 import {Insurer} from '@/schemas/insurer'
 import {ProductFormDef, FormFieldDefType} from '@/schemas/product'
 import {Policy, PolicyDataBlock} from '@/schemas/policy'
+import {Schema} from '@/schemas/schemas'
 
 Vue.use(Vuex)
 
@@ -14,6 +16,7 @@ type RootState = {
   insurers: Array<Insurer> | null;
   product: ProductFormDef | null;
   policy: Policy | null;
+  data: Array<Schema> | null;
 }
 
 type FormFieldPayload = {
@@ -22,12 +25,19 @@ type FormFieldPayload = {
   value: FormFieldDefType;
 }
 
+type AdminDataPayload = {
+  schemaname: string;
+  id: string;
+  doc: firestore.DocumentReference<Schema>;
+}
+
 export default new Vuex.Store<RootState>({
   state: {
     fieldTypes: [],
     insurers: [],
     product: null,
-    policy: null
+    policy: null,
+    data: null
   },
   mutations: {
     ...vuexfireMutations,
@@ -48,6 +58,9 @@ export default new Vuex.Store<RootState>({
     }
   },
   actions: {
+    bindCustomData: firestoreAction(({bindFirestoreRef}, document: string) => {
+      return bindFirestoreRef('data', db.collection(document)) 
+    }),
     bindInsurers: firestoreAction(({bindFirestoreRef}) => {
       return bindFirestoreRef('insurers', db.collection('insurers'))
     }),
@@ -80,6 +93,14 @@ export default new Vuex.Store<RootState>({
           .doc(id)
           .set(state.policy, { merge: true });
       }
+    }),
+    // TODO: finish this. 
+    saveDoc: firestoreAction((...args ) => {
+      const payload: AdminDataPayload = args[1]
+      return db
+        .collection(payload.schemaname)
+        .doc(payload.id)
+        .set(payload.doc, { merge: true });
     })
   },
   modules: {
