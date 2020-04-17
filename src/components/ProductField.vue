@@ -46,6 +46,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import Mustache from "mustache";
 import { db } from "@/firebaseConfig";
 import PeriodField from "@/components/PeriodField.vue";
 import { FormFieldDef } from "../schemas/product";
@@ -114,7 +115,7 @@ export default class ProductField extends Vue {
   }
 
   prepeareFunction(funcText: string): string {
-    return funcText.split("{{policy}}").join("this.$store.state.policy");
+    return Mustache.render(funcText, { policy: this.$store.state.policy.data });
   }
 
   setData(data: string | number) {

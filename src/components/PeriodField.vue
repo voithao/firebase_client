@@ -118,7 +118,6 @@ export default class PeriodField extends Vue {
   }
 
   get daysValue() {
-    //String(dateTo.diff(dateFrom, 'days') + 1)
     return (
       moment(this.fieldvalue.to).diff(moment(this.fieldvalue.from), "days") + 1
     );

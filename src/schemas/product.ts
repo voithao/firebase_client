@@ -39,10 +39,13 @@ export class FormFieldDef {
   type: 'text' | 'number' | 'date' | 'dropbox' | 'period' = 'text'
   /** 
    * Controls field visibility. Put formula here for calcualtion
-   * Example - data['base'].fields['period']==='Other'
+   * Example - '{{policy.base.fields.period}}'==='Other'
    */
   visible: string | undefined
-  /** Use to calculate field value with function */
+  /** 
+   * Use to calculate field value with function
+   * Example: (new Date('{{policy.base.fields.to}}')-new Date('{{policy.base.fields.from}}'))/(1000*60*60*24)+1
+   */
   calculated: string | undefined
   /** 
    * This is mandatory, if field type is 'dropbox' or 'period'
