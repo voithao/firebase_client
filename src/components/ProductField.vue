@@ -48,6 +48,8 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { db } from "@/firebaseConfig";
 import PeriodField from "@/components/PeriodField.vue";
+import { FormFieldDef } from "../schemas/product";
+import { ClassifierItem } from "../schemas/classifier";
 
 @Component({
   components: {
@@ -55,15 +57,14 @@ import PeriodField from "@/components/PeriodField.vue";
   }
 })
 export default class ProductField extends Vue {
-  @Prop() private field!: Record<string, any>;
+  @Prop() private field!: FormFieldDef;
   @Prop() private form!: string;
   private menu = false;
-  private list: Array<any> = [];
-  private mydata: any;
+  private list: Array<ClassifierItem> = [];
+  private mydata?: string | number;
 
   get visible(): boolean {
     if (this.field && this.field.visible) {
-      // console.log(this.$store.state.policy.data['base'].fields['period']=='Other')
       try {
         return eval(`${this.prepeareFunction(this.field.visible)}`);
       } catch (error) {
@@ -74,7 +75,7 @@ export default class ProductField extends Vue {
     }
   }
 
-  get value(): any {
+  get value(): string | number {
     if (this.field.calculated === undefined) {
       return this.$store.state.policy.data[this.form].fields[this.field.id];
     } else {
@@ -116,7 +117,7 @@ export default class ProductField extends Vue {
     return funcText.split("{{policy}}").join("this.$store.state.policy");
   }
 
-  setData(data: any) {
+  setData(data: string | number) {
     this.$store.commit("setPolicyField", {
       form: this.form,
       field: this.field.id,

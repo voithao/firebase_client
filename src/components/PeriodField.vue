@@ -54,16 +54,23 @@
 import moment from "moment";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { db } from "@/firebaseConfig";
+import { FormFieldDef } from "../schemas/product";
+import { ClassifierItem } from "../schemas/classifier";
+
+interface FieldValue {
+  from: string;
+  period: string;
+  to: string;
+}
 
 @Component
 export default class PeriodField extends Vue {
-  @Prop() private field!: Record<string, any>;
+  @Prop() private field!: FormFieldDef;
   @Prop() private form!: string;
   private frommenu = false;
   private tomenu = false;
-  private list: Array<any> = [];
-  private mydata: any;
-  private fieldvalue = {
+  private list: Array<ClassifierItem> = [];
+  private fieldvalue: FieldValue = {
     from: new Date().toISOString().substr(0, 10),
     period: "YEAR",
     to: moment(moment())
@@ -71,6 +78,7 @@ export default class PeriodField extends Vue {
       .toISOString()
       .substr(0, 10)
   };
+  // eslint-disable-next-line
   private periodcodes: any = {
     YEAR: { period: "years", amount: 1 },
     WEEK1: { period: "weeks", amount: 1 },
@@ -138,7 +146,7 @@ export default class PeriodField extends Vue {
     this.setData(this.fieldvalue);
   }
 
-  setData(data: any) {
+  setData(data: FieldValue) {
     this.$store.commit("setPolicyField", {
       form: this.form,
       field: this.field.id,

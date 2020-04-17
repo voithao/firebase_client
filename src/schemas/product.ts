@@ -1,4 +1,12 @@
 /**
+ * Select Field params describes all parameters
+ * that could be set to select field
+ */
+export interface SelectFieldClassifierParams {
+  name?: string
+}
+
+/**
  * This field definition part is used in {@link FormFieldDef} 
  * for specifying dropbox behaviour. 
  * Used only when type is - dropbox
@@ -13,7 +21,7 @@ export class SelectField {
    * params depends on field type, 
    * for classifier you should specify parameter name - code of classifier to use
    */
-  params: Record<string, string>[] = []
+  params: SelectFieldClassifierParams = {}
 }
 
 /**
