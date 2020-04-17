@@ -71,6 +71,26 @@ export default class PeriodField extends Vue {
       .toISOString()
       .substr(0, 10)
   };
+  private periodcodes: any = {
+    YEAR: { period: "years", amount: 1 },
+    WEEK1: { period: "weeks", amount: 1 },
+    WEEK2: { period: "weeks", amount: 2 },
+    WEEK3: { period: "weeks", amount: 3 },
+    WEEK4: { period: "weeks", amount: 4 },
+    MONTH1: { period: "months", amount: 1 },
+    MONTH2: { period: "months", amount: 2 },
+    MONTH3: { period: "months", amount: 3 },
+    MONTH4: { period: "months", amount: 4 },
+    MONTH5: { period: "months", amount: 5 },
+    MONTH6: { period: "months", amount: 6 },
+    MONTH7: { period: "months", amount: 7 },
+    MONTH8: { period: "months", amount: 8 },
+    MONTH9: { period: "months", amount: 9 },
+    MONTH10: { period: "months", amount: 10 },
+    MONTH11: { period: "months", amount: 11 },
+    MONTH12: { period: "months", amount: 12 },
+    OTHER: { period: "days", amount: 1 }
+  };
 
   // We use different getter setter because default values
   // anyway are different & getters does not like parameters.
@@ -98,6 +118,13 @@ export default class PeriodField extends Vue {
 
   setPeriod(value: string) {
     this.fieldvalue.period = value;
+    this.fieldvalue.to = moment(moment())
+      .add(
+        this.periodcodes[this.fieldvalue.period].amount,
+        this.periodcodes[this.fieldvalue.period].period
+      )
+      .toISOString()
+      .substr(0, 10);
     this.setData(this.fieldvalue);
   }
 
