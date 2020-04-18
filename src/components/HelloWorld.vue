@@ -3,7 +3,7 @@
     <div v-if="$store.state.insurers.length > 0">
       <h1>{{ msg }}</h1>
       <v-combobox
-        label='Choose a product'
+        label="Choose a product"
         :v-if="$store.state.insurers"
         :items="$store.state.insurers[0].products"
         v-model="product"
