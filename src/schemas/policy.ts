@@ -1,11 +1,11 @@
-import {Product} from './product'
+import {Product, FormFieldDefType} from './product'
 import {Insurer} from './insurer'
 
 /**
  * Array of variable values for data block as {"name": "value"}
  */
 export class PolicyDataBlock {
-  fields: Record<string, string | number | Date>[] = []
+  fields: Record<string, FormFieldDefType> = {}
 }
 
 /**

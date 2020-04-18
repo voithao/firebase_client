@@ -24,6 +24,8 @@ export class SelectField {
   params: SelectFieldClassifierParams = {}
 }
 
+export type FormFieldDefType = 'text' | 'number' | 'date' | 'dropbox' | 'period'
+
 /**
  * Class defines form fields behaviour in product definition
  * {@link Product} forms {@link ProductFormDef}.
@@ -36,7 +38,7 @@ export class FormFieldDef {
   /** Field label for user information */
   label: string = ''
   /** Field type */
-  type: 'text' | 'number' | 'date' | 'dropbox' | 'period' = 'text'
+  type: FormFieldDefType = 'text'
   /** 
    * Controls field visibility. Put formula here for calcualtion
    * Example - '{{policy.base.fields.period}}'==='Other'
