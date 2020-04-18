@@ -41,7 +41,8 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import ProductField from "@/components/ProductField.vue";
 import AddFieldDialog from "@/components/AddFieldDialog.vue";
-import { db } from "@/firebaseConfig";
+import { Product } from "../schemas/product";
+import { firestore } from "firebase";
 
 @Component({
   components: {
@@ -51,7 +52,7 @@ import { db } from "@/firebaseConfig";
 })
 export default class HelloWorld extends Vue {
   @Prop() private msg!: string;
-  private product?: any = null;
+  private product?: firestore.DocumentReference<Product> | null = null;
 
   mounted() {
     this.$store.dispatch("bindInsurers");
@@ -59,8 +60,10 @@ export default class HelloWorld extends Vue {
 
   @Watch("product")
   async onProductChoose() {
-    this.$store.dispatch("bindInsurerProduct", this.product.id);
-    this.$store.dispatch("getPolicy", "EOKcIGFDtisYOrpNw1Z2");
+    if (this.product) {
+      this.$store.dispatch("bindInsurerProduct", this.product.id);
+      this.$store.dispatch("getPolicy", "EOKcIGFDtisYOrpNw1Z2");
+    }
   }
 
   doSomeAction() {
