@@ -2,10 +2,27 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { vuexfireMutations, firestoreAction } from 'vuexfire'
 import { db } from '@/firebaseConfig'
+import { Classifier } from '@/schemas/classifier'
+import {Insurer} from '@/schemas/insurer'
+import {ProductFormDef, FormFieldDefType} from '@/schemas/product'
+import {Policy, PolicyDataBlock} from '@/schemas/policy'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+type RootState = {
+  fieldTypes: Array<Classifier> | null;
+  insurers: Array<Insurer> | null;
+  product: ProductFormDef | null;
+  policy: Policy | null;
+}
+
+type FormFieldPayload = {
+  form: string;
+  field: string;
+  value: FormFieldDefType;
+}
+
+export default new Vuex.Store<RootState>({
   state: {
     fieldTypes: [],
     insurers: [],
@@ -14,11 +31,20 @@ export default new Vuex.Store({
   },
   mutations: {
     ...vuexfireMutations,
-    setPolicy(state: any, object) {
+    setPolicy(state: RootState, object) {
       state.policy = object
     },
-    setPolicyField(state: any, payload: any) {
-      state.policy.data[payload.form].fields[payload.field] = payload.value
+    setPolicyField(state: RootState, payload: FormFieldPayload) {
+      if (!state.policy) {
+        const fields: Record<string, FormFieldDefType> = {}
+        fields[payload.field] = payload.value
+        const data: Record<string, PolicyDataBlock> = {}
+        data[payload.form] = {
+          fields
+        }
+      } else {
+        state.policy.data[payload.form].fields[payload.field] = payload.value
+      }
     }
   },
   actions: {
@@ -47,11 +73,13 @@ export default new Vuex.Store({
           data: { base: {fields: {from: null, period: null}}, detail: {fields:{plate: 'plateno'}}}}
         );
     }),
-    savePolicy: firestoreAction((context: any, id: string) => {
-      return db
-        .collection('policies')
-        .doc(id)
-        .set(context.state.policy, { merge: true });
+    savePolicy: firestoreAction(({state}, id: string) => {
+      if (state.policy) {
+        return db
+          .collection('policies')
+          .doc(id)
+          .set(state.policy, { merge: true });
+      }
     })
   },
   modules: {

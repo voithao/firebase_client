@@ -2,10 +2,11 @@ import {Product, FormFieldDefType} from './product'
 import {Insurer} from './insurer'
 
 /**
- * Array of variable values for data block as {"name": "value"}
+ * Policy form containing specific form data
+ * described in {@link Product}
  */
-export class PolicyDataBlock {
-  fields: Record<string, FormFieldDefType> = {}
+export interface PolicyDataBlock {
+  fields: Record<string, FormFieldDefType>
 }
 
 /**
@@ -22,5 +23,5 @@ export class Policy {
   /** Policy product docid {@link Product} */
   product: string | Product = ''
   /** policy attributes organised in data blocks */
-  data: PolicyDataBlock[] = []
+  data: Record<string, PolicyDataBlock> = {}
 }
