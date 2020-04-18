@@ -5,31 +5,32 @@
       "cols": 4,
       "fields": [
         {
-          "id": "periodfield",
-          "periodcode": "OTHER",
           "select": {
+            "type": "classifier",
             "params": {
               "name": "TEST_PERIOD_CLASSIFIER"
-            },
-            "type": "classifier"
+            }
           },
-          "type": "period"
+          "type": "period",
+          "id": "periodfield",
+          "periodcode": "OTHER"
         }
       ],
       "name": "base"
     },
     {
+      "cols": 4,
       "fields": [
         {
+          "type": "text",
           "label": "Plate no",
-          "id": "plate",
-          "type": "text"
+          "id": "plate"
         }
       ],
-      "name": "detail",
-      "cols": 4
+      "name": "detail"
     },
     {
+      "name": "custom",
       "cols": 4,
       "fields": [
         {
@@ -45,24 +46,24 @@
             "type": "classifier"
           },
           "type": "dropbox",
+          "default": "'Other'",
           "label": "period",
           "id": "period"
         },
         {
-          "type": "date",
           "label": "To date",
           "id": "to",
-          "visible": "'{{policy.custom.fields.period}}'==='Other'"
+          "visible": "'{{policy.custom.fields.period}}'==='Other'",
+          "type": "date"
         },
         {
+          "calculated": "(new Date('{{policy.custom.fields.to}}')-new Date('{{policy.custom.fields.from}}'))/(1000*60*60*24)+1",
+          "type": "number",
           "label": "Days",
           "id": "days",
-          "readonly": "true",
-          "calculated": "(new Date('{{policy.custom.fields.to}}')-new Date('{{policy.custom.fields.from}}'))/(1000*60*60*24)+1",
-          "type": "number"
+          "readonly": "true"
         }
-      ],
-      "name": "custom"
+      ]
     }
   ],
   "description": "LT OCTA",

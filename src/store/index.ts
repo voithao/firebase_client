@@ -51,10 +51,9 @@ export default new Vuex.Store<RootState>({
       if (!state.policy.data[payload.form]) {
         const fields: Record<string, FormFieldDefType> = {}
         fields[payload.field] = payload.value
-        state.policy.data[payload.form] = { fields }        
+        Vue.set(state.policy.data, payload.form, { fields })
       }
-      console.log('update policy field ', payload.field, ' to ', payload.value)
-      state.policy.data[payload.form].fields[payload.field] = payload.value
+      Vue.set(state.policy.data[payload.form].fields, payload.field, payload.value)
     }
   },
   actions: {

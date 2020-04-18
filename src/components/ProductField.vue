@@ -1,11 +1,5 @@
 <template>
-  <div
-    v-if="this.$store && this.$store.state &&
-        this.$store.state.policy &&
-        this.$store.state.policy.data &&
-        this.$store.state.policy.data[this.form] &&
-        this.$store.state.policy.data[this.form].fields"
-  >
+  <div>
     <period-field v-if="field.type === 'period' && visible" :field="field" :form="form" />
     <v-text-field
       :id="field.id"
@@ -86,7 +80,40 @@ export default class ProductField extends Vue {
 
   get value(): string | number {
     if (this.field.calculated === undefined) {
-      return this.$store.state.policy.data[this.form].fields[this.field.id];
+      if (
+        this.$store &&
+        this.$store.state &&
+        this.$store.state.policy &&
+        this.$store.state.policy.data &&
+        this.$store.state.policy.data[this.form] &&
+        this.$store.state.policy.data[this.form].fields &&
+        this.$store.state.policy.data[this.form].fields[this.field.id]
+      ) {
+        return this.$store.state.policy.data[this.form].fields[this.field.id];
+      } else {
+        let field: PolicyField = "no data";
+        if (this.field.default) {
+          field = eval(`${this.prepeareFunction(this.field.default)}`);
+        } else {
+          if (this.field) {
+            if (this.field.type === "date") {
+              field = new Date().toISOString().substr(0, 10);
+            } else if (this.field.type === "number") {
+              field = 0;
+            } else {
+              field = "";
+            }
+          } else {
+            field = "";
+          }
+        }
+        this.$store.commit("setPolicyField", {
+          form: this.form,
+          field: this.field.id,
+          value: field
+        });
+        return "";
+      }
     } else {
       console.log(
         "Eval calculated:",

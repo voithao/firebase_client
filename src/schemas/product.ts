@@ -49,6 +49,12 @@ export class FormFieldDef {
    * Example: (new Date('{{policy.base.fields.to}}')-new Date('{{policy.base.fields.from}}'))/(1000*60*60*24)+1
    */
   calculated: string | undefined
+  /**
+   * Sets default value for field
+   * You can use javascript functions here
+   * Example new Date()
+   */
+  default: string | undefined
   /** 
    * This is mandatory, if field type is 'dropbox' or 'period'
    * For dropbox, it contains dropbox list items
