@@ -46,15 +46,15 @@ export default new Vuex.Store<RootState>({
     },
     setPolicyField(state: RootState, payload: FormFieldPayload) {
       if (!state.policy) {
-        const fields: Record<string, FormFieldDefType> = {}
-        fields[payload.field] = payload.value
-        const data: Record<string, PolicyDataBlock> = {}
-        data[payload.form] = {
-          fields
-        }
-      } else {
-        state.policy.data[payload.form].fields[payload.field] = payload.value
+        state.policy = new Policy()
       }
+      const fields: Record<string, FormFieldDefType> = {}
+      fields[payload.field] = payload.value
+      const data: Record<string, PolicyDataBlock> = {}
+      if (!state.policy.data[payload.form]) {
+        state.policy.data[payload.form] = { fields }        
+      }
+      state.policy.data[payload.form].fields[payload.field] = payload.value
     }
   },
   actions: {
@@ -91,10 +91,9 @@ export default new Vuex.Store<RootState>({
         return db
           .collection('policies')
           .doc(id)
-          .set(state.policy, { merge: true });
+          .set(Object.assign({}, state.policy), { merge: true });
       }
     }),
-    // TODO: finish this. 
     saveDoc: firestoreAction((...args ) => {
       const payload: AdminDataPayload = args[1]
       return db

@@ -1,0 +1,70 @@
+{
+  "company": "sLZN4sLaKZvGC9OYTFpe",
+  "forms": [
+    {
+      "cols": 4,
+      "fields": [
+        {
+          "id": "periodfield",
+          "periodcode": "OTHER",
+          "select": {
+            "params": {
+              "name": "TEST_PERIOD_CLASSIFIER"
+            },
+            "type": "classifier"
+          },
+          "type": "period"
+        }
+      ],
+      "name": "base"
+    },
+    {
+      "fields": [
+        {
+          "label": "Plate no",
+          "id": "plate",
+          "type": "text"
+        }
+      ],
+      "name": "detail",
+      "cols": 4
+    },
+    {
+      "cols": 4,
+      "fields": [
+        {
+          "type": "date",
+          "label": "From date",
+          "id": "from"
+        },
+        {
+          "select": {
+            "params": {
+              "name": "PERIOD_TYPE"
+            },
+            "type": "classifier"
+          },
+          "type": "dropbox",
+          "label": "period",
+          "id": "period"
+        },
+        {
+          "type": "date",
+          "label": "To date",
+          "id": "to",
+          "visible": "'{{policy.custom.fields.period}}'==='Other'"
+        },
+        {
+          "label": "Days",
+          "id": "days",
+          "readonly": "true",
+          "calculated": "(new Date('{{policy.custom.fields.to}}')-new Date('{{policy.custom.fields.from}}'))/(1000*60*60*24)+1",
+          "type": "number"
+        }
+      ],
+      "name": "custom"
+    }
+  ],
+  "description": "LT OCTA",
+  "code": "TT01"
+}

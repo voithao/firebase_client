@@ -51,6 +51,7 @@ import { db } from "@/firebaseConfig";
 import PeriodField from "@/components/PeriodField.vue";
 import { FormFieldDef } from "../schemas/product";
 import { ClassifierItem } from "../schemas/classifier";
+import { PolicyField } from "../schemas/policy";
 
 @Component({
   components: {
@@ -67,6 +68,7 @@ export default class ProductField extends Vue {
   get visible(): boolean {
     if (this.field && this.field.visible) {
       try {
+        console.log("Eval visible:", this.prepeareFunction(this.field.visible));
         return eval(`${this.prepeareFunction(this.field.visible)}`);
       } catch (error) {
         return true;
@@ -78,39 +80,43 @@ export default class ProductField extends Vue {
 
   get value(): string | number {
     if (this.field.calculated === undefined) {
-      return this.$store.state.policy.data[this.form].fields[this.field.id];
-    } else {
-      return eval(`${this.prepeareFunction(this.field.calculated)}`);
-    }
-  }
-
-  get data() {
-    if (
-      this.$store &&
-      this.$store.state &&
-      this.$store.state.policy &&
-      this.$store.state.policy.data &&
-      this.$store.state.policy.data[this.form] &&
-      this.$store.state.policy.data[this.form].fields &&
-      this.$store.state.policy.data[this.form].fields[this.field.id]
-    ) {
-      return this.$store.state.policy.data[this.form].fields[this.field.id];
-    } else {
-      if (this.field) {
-        if (this.field.type === "date") {
-          return new Date().toISOString().substr(0, 10);
+      if (
+        this.$store &&
+        this.$store.state &&
+        this.$store.state.policy &&
+        this.$store.state.policy.data &&
+        this.$store.state.policy.data[this.form] &&
+        this.$store.state.policy.data[this.form].fields &&
+        this.$store.state.policy.data[this.form].fields[this.field.id]
+      ) {
+        return this.$store.state.policy.data[this.form].fields[this.field.id];
+      } else {
+        // If there is no field value, sed default values
+        let field: PolicyField = "no data";
+        if (this.field) {
+          if (this.field.type === "date") {
+            field = new Date().toISOString().substr(0, 10);
+          } else if (this.field.type === "number") {
+            field = 0;
+          } else {
+            field = "";
+          }
+        } else {
+          field = "";
         }
-        if (this.field.type === "number") {
-          return 0;
-        }
-        if (this.field.type === "text") {
-          return "";
-        }
-        if (this.field.type === "dropbox") {
-          return "";
-        }
+        this.$store.commit("setPolicyField", {
+          form: this.form,
+          field: this.field.id,
+          value: field
+        });
+        return field;
       }
-      return "";
+    } else {
+      console.log(
+        "Eval calculated:",
+        this.prepeareFunction(this.field.calculated)
+      );
+      return eval(`${this.prepeareFunction(this.field.calculated)}`);
     }
   }
 

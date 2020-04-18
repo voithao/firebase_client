@@ -157,15 +157,22 @@ export default class PeriodField extends Vue {
     this.fieldvalue.to = moment(moment())
       .add(1, "years")
       .toISOString()
-      .substr(0, 10)
+      .substr(0, 10);
   }
-  
+
   prepeareFieldValue() {
-    const storevalue = this.$store.state.policy.data[this.form].fields[
-      this.field.id
-    ];
-    if (storevalue !== undefined) {
-      this.fieldvalue = storevalue;
+    if (
+      this.$store &&
+      this.$store.state &&
+      this.$store.state.policy &&
+      this.$store.state.policy.data &&
+      this.$store.state.policy.data[this.form] &&
+      this.$store.state.policy.data[this.form].fields &&
+      this.$store.state.policy.data[this.form].fields[this.field.id]
+    ) {
+      this.fieldvalue = this.$store.state.policy.data[this.form].fields[
+        this.field.id
+      ];
     }
   }
 

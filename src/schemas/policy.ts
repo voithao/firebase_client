@@ -1,12 +1,14 @@
 import {Product, FormFieldDefType} from './product'
 import {Insurer} from './insurer'
 
+export type PolicyField = string | number 
+
 /**
  * Policy form containing specific form data
  * described in {@link Product}
  */
 export interface PolicyDataBlock {
-  fields: Record<string, FormFieldDefType>
+  fields: Record<string, PolicyField>;
 }
 
 /**
