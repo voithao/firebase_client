@@ -6,7 +6,7 @@ import { db } from '@/firebaseConfig'
 import { Classifier } from '@/schemas/classifier'
 import {Insurer} from '@/schemas/insurer'
 import {ProductFormDef, FormFieldDefType} from '@/schemas/product'
-import {Policy, PolicyDataBlock} from '@/schemas/policy'
+import {Policy} from '@/schemas/policy'
 import {Schema} from '@/schemas/schemas'
 
 Vue.use(Vuex)
@@ -50,7 +50,6 @@ export default new Vuex.Store<RootState>({
       }
       const fields: Record<string, FormFieldDefType> = {}
       fields[payload.field] = payload.value
-      const data: Record<string, PolicyDataBlock> = {}
       if (!state.policy.data[payload.form]) {
         state.policy.data[payload.form] = { fields }        
       }

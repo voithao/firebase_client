@@ -56,6 +56,37 @@ import { PolicyField } from "../schemas/policy";
 @Component({
   components: {
     PeriodField
+  },
+  created: function() {
+    if (
+      !(
+        this.$store &&
+        this.$store.state &&
+        this.$store.state.policy &&
+        this.$store.state.policy.data &&
+        this.$store.state.policy.data[this.form] &&
+        this.$store.state.policy.data[this.form].fields &&
+        this.$store.state.policy.data[this.form].fields[this.field.id]
+      )
+    ) {
+      let field: PolicyField = "no data";
+      if (this.field) {
+        if (this.field.type === "date") {
+          field = new Date().toISOString().substr(0, 10);
+        } else if (this.field.type === "number") {
+          field = 0;
+        } else {
+          field = "";
+        }
+      } else {
+        field = "";
+      }
+      this.$store.commit("setPolicyField", {
+        form: this.form,
+        field: this.field.id,
+        value: field
+      });
+    }
   }
 })
 export default class ProductField extends Vue {
@@ -92,24 +123,7 @@ export default class ProductField extends Vue {
         return this.$store.state.policy.data[this.form].fields[this.field.id];
       } else {
         // If there is no field value, sed default values
-        let field: PolicyField = "no data";
-        if (this.field) {
-          if (this.field.type === "date") {
-            field = new Date().toISOString().substr(0, 10);
-          } else if (this.field.type === "number") {
-            field = 0;
-          } else {
-            field = "";
-          }
-        } else {
-          field = "";
-        }
-        this.$store.commit("setPolicyField", {
-          form: this.form,
-          field: this.field.id,
-          value: field
-        });
-        return field;
+        return "";
       }
     } else {
       console.log(

@@ -52,7 +52,7 @@
           "type": "date",
           "label": "To date",
           "id": "to",
-          "visible": "'{{policy.custom.fields.period}}'==='Other'"
+          "visible": "'{{policy.custom.fields.period}}'==='OTHER'"
         },
         {
           "label": "Days",
