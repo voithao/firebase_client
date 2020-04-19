@@ -1,11 +1,6 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
-import Proudcts from '../views/Products.vue'
-import Admin from '../views/Admin.vue'
-import Login from '../views/Login.vue'
-import Logout from '../views/Logout.vue'
-import Register from '../views/Register.vue'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -18,26 +13,26 @@ Vue.use(VueRouter)
   },{
     path: '/products',
     name: 'Proudcts',
-    component: Proudcts,
+    component: () => import('@/views/Products.vue'),
     meta: {
       authRequred: true
     }
   },{
     path: '/register',
     name: 'Register',
-    component: Register
+    component: () => import('@/views/Register.vue')
   },{
     path: '/login',
     name: 'Login',
-    component: Login
+    component: () => import('@/views/Login.vue')
   },{
     path: '/logout',
     name: 'Logout',
-    component: Logout
+    component: () => import('@/views/Logout.vue')
   },{
     path: '/admin',
     name: 'Admin',
-    component: Admin,
+    component: () => import('@/views/Admin.vue'),
     meta: {
       authRequred: true
     }

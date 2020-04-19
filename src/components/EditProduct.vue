@@ -39,10 +39,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import ProductField from "@/components/ProductField.vue";
-import AddFieldDialog from "@/components/AddFieldDialog.vue";
 import { Product } from "../schemas/product";
 import { firestore } from "firebase";
+const ProductField = () => import("@/components/ProductField.vue");
+const AddFieldDialog = () => import("@/components/AddFieldDialog.vue");
 
 @Component({
   components: {

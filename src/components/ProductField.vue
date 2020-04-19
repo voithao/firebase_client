@@ -48,10 +48,10 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import Mustache from "mustache";
 import { db } from "@/firebaseConfig";
-import PeriodField from "@/components/PeriodField.vue";
 import { FormFieldDef } from "../schemas/product";
 import { ClassifierItem } from "../schemas/classifier";
 import { PolicyField } from "../schemas/policy";
+const PeriodField = () => import("@/components/PeriodField.vue");
 
 @Component({
   components: {

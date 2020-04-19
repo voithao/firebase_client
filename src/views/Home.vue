@@ -5,8 +5,7 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import PurchaseForm from "@/components/PurchaseForm.vue";
+const PurchaseForm = () => import("@/components/PurchaseForm.vue");
 
 export default {
   name: "Home",

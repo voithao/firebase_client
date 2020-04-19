@@ -5,8 +5,7 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import EditProduct from "@/components/EditProduct.vue";
+const EditProduct = () => import("@/components/EditProduct.vue");
 
 export default {
   name: "Home",

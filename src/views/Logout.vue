@@ -6,9 +6,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { auth } from "@/firebaseConfig";
 
-@Component({
-  components: {}
-})
+@Component({})
 export default class Login extends Vue {
   async mounted() {
     await auth.signOut();
