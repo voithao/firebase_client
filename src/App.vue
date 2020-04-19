@@ -3,7 +3,9 @@
     <div id="nav">
       <router-link to="/">Home</router-link>|
       <router-link to="/admin">Admin</router-link>|
-      <router-link to="/about">About</router-link>
+      <router-link to="/about">About</router-link>|
+      <router-link v-show="!$store.state.user" to="/login">Login</router-link>
+      <router-link v-show="!!$store.state.user" to="/logout">Logout</router-link>
     </div>
     <v-app>
       <v-content>

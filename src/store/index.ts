@@ -17,6 +17,7 @@ type RootState = {
   product: ProductFormDef | null;
   policy: Policy | null;
   data: Array<Schema> | null;
+  user: string | null;
 }
 
 type FormFieldPayload = {
@@ -37,10 +38,14 @@ export default new Vuex.Store<RootState>({
     insurers: [],
     product: null,
     policy: null,
-    data: null
+    data: null,
+    user: null
   },
   mutations: {
     ...vuexfireMutations,
+    updateUser (state, { user }) {
+      Vue.set(state, 'user', user)
+    },
     setPolicy(state: RootState, object) {
       state.policy = object
     },
