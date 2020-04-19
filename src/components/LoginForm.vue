@@ -33,6 +33,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { auth } from "@/firebaseConfig";
 
 @Component({})
 export default class LoginForm extends Vue {
@@ -55,12 +56,14 @@ export default class LoginForm extends Vue {
   }
 
   private async submit() {
-    const authresult = await this.$auth.login(
+    const authresult = await await auth.signInWithEmailAndPassword(
       this.auth.username,
       this.auth.password
     );
     if (authresult.user) {
-      this.$router.replace(this.$route.query.redirect || "/");
+      this.$router.replace(
+        this.$route.query.redirect === null ? this.$route.query.redirect : "/"
+      );
     }
   }
 }

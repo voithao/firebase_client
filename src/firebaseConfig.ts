@@ -1,5 +1,4 @@
 import firebase from 'firebase/app'
-import Vue from 'vue'
 import 'firebase/auth'
 import 'firebase/firestore'
 import store from './store'
@@ -16,15 +15,6 @@ const currentUser = auth.currentUser
 
 // For prototyping we sign in anonymously
 // auth.signInAnonymously()
-
-Vue.prototype.$auth = {
-  login: async (username: string, pass: string) => {
-    return await auth.signInWithEmailAndPassword(username, pass)
-  },
-  logout: async () => {
-    await auth.signOut()
-  }
-}
 
 auth.onAuthStateChanged(user => {
   store.commit('updateUser', { user })
