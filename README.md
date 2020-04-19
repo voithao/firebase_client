@@ -6,7 +6,7 @@
 npm install
 ```
 
-Add your firebase config to file - src/firebaseConfig.ts
+Add your firebase config to file - src/config.ts
 
 ### Compiles and hot-reloads for development
 
