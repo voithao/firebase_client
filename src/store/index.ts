@@ -26,9 +26,9 @@ type FormFieldPayload = {
 }
 
 type AdminDataPayload = {
-  schemaname: string;
+  collection: string;
   id: string;
-  doc: firestore.DocumentReference<Schema>;
+  doc: firestore.DocumentReference<string> | null;
 }
 
 export default new Vuex.Store<RootState>({
@@ -57,8 +57,8 @@ export default new Vuex.Store<RootState>({
     }
   },
   actions: {
-    bindCustomData: firestoreAction(({bindFirestoreRef}, document: string) => {
-      return bindFirestoreRef('data', db.collection(document)) 
+    bindCustomData: firestoreAction(({bindFirestoreRef}, path: AdminDataPayload) => {
+      return bindFirestoreRef('data', db.collection(path.collection).doc(path.id)) 
     }),
     bindInsurers: firestoreAction(({bindFirestoreRef}) => {
       return bindFirestoreRef('insurers', db.collection('insurers'))
@@ -93,12 +93,20 @@ export default new Vuex.Store<RootState>({
           .set(Object.assign({}, state.policy), { merge: true });
       }
     }),
-    saveDoc: firestoreAction((...args ) => {
+    saveDoc: firestoreAction(async (...args ) => {
       const payload: AdminDataPayload = args[1]
-      return db
-        .collection(payload.schemaname)
-        .doc(payload.id)
-        .set(payload.doc, { merge: true });
+      if (payload.doc) {
+        if (payload.id === "") {
+          return await db
+            .collection(payload.collection)
+            .add(payload.doc);
+        } else {
+          return await db
+            .collection(payload.collection)
+            .doc(payload.id)
+            .set(payload.doc, { merge: true });
+        }
+      }
     })
   },
   modules: {

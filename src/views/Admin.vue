@@ -1,27 +1,22 @@
 <template>
   <div>
     <h1>Administration</h1>
-    <v-combobox label="Choose data:" v-model="collection" @change="bindDocument" :items="items"></v-combobox>
-    <v-combobox
-      v-if="this.collection"
-      label="Choose doc:"
-      v-model="jsondoc"
-      item-text="name"
-      item-value="name"
-      :items="$store.state.data"
-    ></v-combobox>
-    <v-textarea
-      v-if="this.jsondoc && this.collection"
-      label="Document value"
-      :value="value"
-      @input="setJSONDoc"
-    ></v-textarea>
+    <v-text-field v-model="collection" label="Enter collection path:"></v-text-field>
+    <v-text-field v-model="id" label="Enter doc id:"></v-text-field>
+    <v-btn v-if="this.collection && this.id" @click="bindDocument()">Load</v-btn>
+    <v-textarea v-if="this.collection" label="Document value" :value="value" @input="setJSONDoc"></v-textarea>
     <v-btn
-      v-if="this.jsondoc && this.collection"
+      v-if="$store.state.data && this.collection && this.id"
       :disabled="!saveEnabled"
       @click="saveDoc()"
       color="primary"
     >Save</v-btn>
+    <v-btn
+      v-if="!$store.state.data && this.collection && !this.id"
+      :disabled="!createEnabled"
+      @click="saveDoc()"
+      color="primary"
+    >Create</v-btn>
   </div>
 </template>
 
@@ -33,33 +28,41 @@ import { firestore } from "firebase";
 @Component
 export default class AdminView extends Vue {
   private collection = "";
-  private jsondoc: firestore.DocumentReference<Schema> | null = null;
-  private updated: Schema | null = null;
-  items = ["classifier", "insurers", "policies", "products"];
+  private id = "";
+  private updated: string | null = null;
 
   bindDocument() {
-    this.$store.dispatch("bindCustomData", this.collection);
+    this.$store.dispatch("bindCustomData", {
+      collection: this.collection,
+      id: this.id
+    });
+    this.updated = null;
   }
 
   get value() {
-    return JSON.stringify(this.jsondoc);
+    return JSON.stringify(this.$store.state.data);
   }
 
   get saveEnabled() {
-    return this.updated && this.jsondoc && this.collection;
+    return this.updated && this.$store.state.data && this.collection && this.id;
+  }
+
+  get createEnabled() {
+    return this.updated && this.collection && !this.id;
   }
 
   setJSONDoc(value: string) {
     this.updated = JSON.parse(value);
   }
 
-  saveDoc() {
-    if (this.updated && this.jsondoc && this.collection) {
-      this.$store.dispatch("saveDoc", {
+  async saveDoc() {
+    if (this.updated && this.collection) {
+      const result = await this.$store.dispatch("saveDoc", {
         doc: this.updated,
-        id: this.jsondoc.id,
-        schemaname: this.collection
+        collection: this.collection,
+        id: this.id
       });
+      this.id = result.id;
     }
   }
 }
