@@ -22,8 +22,6 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { Schema } from "../schemas/schemas";
-import { firestore } from "firebase";
 
 @Component
 export default class AdminView extends Vue {
