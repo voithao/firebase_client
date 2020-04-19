@@ -72,7 +72,7 @@ export default new Vuex.Store<RootState>({
       return bindFirestoreRef('fieldTypes', db.collection('classifier').where('name', '==', 'fieldTypes'))
     }),
     bindInsurerProduct: firestoreAction(({bindFirestoreRef}, id: string) => {
-      return bindFirestoreRef('product', db.collection('products').doc(id))
+      return bindFirestoreRef('product', db.collection('/insurers/sLZN4sLaKZvGC9OYTFpe/products').doc(id))
     }),
     getPolicy: firestoreAction(async (context, id: string) => {
       db.collection('policies').doc(id).get().then(snapshot => {
