@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
+import Proudcts from '../views/Products.vue'
 import Admin from '../views/Admin.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
@@ -14,6 +15,13 @@ Vue.use(VueRouter)
     path: '/',
     name: 'Home',
     component: Home
+  },{
+    path: '/products',
+    name: 'Proudcts',
+    component: Proudcts,
+    meta: {
+      authRequred: true
+    }
   },{
     path: '/register',
     name: 'Register',
