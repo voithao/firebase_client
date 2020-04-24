@@ -9,8 +9,8 @@
           <v-tab to="/about">About</v-tab>
         </v-tabs>
         <v-spacer></v-spacer>
-        <v-btn to="/login" v-show="!$store.state.user" text>Login</v-btn>
-        <v-btn to="/logout" v-show="!!$store.state.user" text>Logout</v-btn>
+        <v-btn to="/login" v-show="!$store.state.user.user" text>Login</v-btn>
+        <v-btn to="/logout" v-show="!!$store.state.user.user" text>Logout</v-btn>
       </v-app-bar>
       <v-content>
         <v-container fluid>

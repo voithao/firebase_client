@@ -54,7 +54,7 @@
 import moment from "moment";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { db } from "@/firebaseConfig";
-import { FormFieldDef } from "../schemas/product";
+import { FormFieldDef } from "../schemas/insurer/products";
 import { ClassifierItem } from "../schemas/classifier";
 
 interface FieldValue {
@@ -146,7 +146,7 @@ export default class PeriodField extends Vue {
   }
 
   setData(data: FieldValue) {
-    this.$store.commit("setPolicyField", {
+    this.$store.commit("product/setPolicyField", {
       form: this.form,
       field: this.field.id,
       value: data
@@ -164,13 +164,14 @@ export default class PeriodField extends Vue {
     if (
       this.$store &&
       this.$store.state &&
-      this.$store.state.policy &&
-      this.$store.state.policy.data &&
-      this.$store.state.policy.data[this.form] &&
-      this.$store.state.policy.data[this.form].fields &&
-      this.$store.state.policy.data[this.form].fields[this.field.id]
+      this.$store.state.product &&
+      this.$store.state.product.policy &&
+      this.$store.state.product.policy.data &&
+      this.$store.state.product.policy.data[this.form] &&
+      this.$store.state.product.policy.data[this.form].fields &&
+      this.$store.state.product.policy.data[this.form].fields[this.field.id]
     ) {
-      this.fieldvalue = this.$store.state.policy.data[this.form].fields[
+      this.fieldvalue = this.$store.state.product.policy.data[this.form].fields[
         this.field.id
       ];
     }

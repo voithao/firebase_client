@@ -1,4 +1,4 @@
-import {Product, FormFieldDefType} from './product'
+import {Product} from './insurer/products'
 import {Insurer} from './insurer'
 
 export type PolicyField = string | number 

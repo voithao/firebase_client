@@ -5,8 +5,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-const RegisterForm = () => import('../components/RegisterForm.vue')
+import { Component, Vue } from "vue-property-decorator";
+const RegisterForm = () => import("@/components/user/RegisterForm.vue");
 
 @Component({
   components: {

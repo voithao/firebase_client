@@ -20,15 +20,19 @@ Vue.use(VueRouter)
   },{
     path: '/register',
     name: 'Register',
-    component: () => import('@/views/Register.vue')
+    component: () => import('@/views/user/Register.vue')
+  },{
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('@/views/user/Login.vue')
   },{
     path: '/login',
     name: 'Login',
-    component: () => import('@/views/Login.vue')
+    component: () => import('@/views/user/Login.vue')
   },{
     path: '/logout',
     name: 'Logout',
-    component: () => import('@/views/Logout.vue')
+    component: () => import('@/views/user/Logout.vue')
   },{
     path: '/admin',
     name: 'Admin',
@@ -55,9 +59,10 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.authRequred)) {
-    if (!store.state.user) {
+    // eslint-disable-next-line
+    if (!(store.state as any).user || !(store.state as any).user.user) {
       next({
-        path: '/login',
+        path: '/login', 
         query: { redirect: to.fullPath }
       })
     } else {

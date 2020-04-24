@@ -12,5 +12,9 @@ export interface Insurer {
       /** Description */
       name: string
     }
-  ]
+  ],
+  /**
+   * Enlists what role uid has in company
+   */
+  roles: Record<string, string>
 }

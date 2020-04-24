@@ -1,22 +1,22 @@
 <template>
   <div>
-    <div v-if="$store.state.insurers.length > 0">
+    <div v-if="$store.state.product.insurers.length > 0">
       <h1>{{ msg }}</h1>
       <v-combobox
         label="Choose a product"
-        :v-if="$store.state.insurers"
-        :items="$store.state.insurers[0].products"
+        :v-if="$store.state.product.insurers"
+        :items="$store.state.product.insurers[0].products"
         v-model="product"
         item-text="name"
         item-value="id"
       ></v-combobox>
-      <span v-if="$store.state.product && $store.state.policy">
+      <span v-if="$store.state.product.product && $store.state.product.policy">
         <add-field-dialog />
         <v-btn color="primary" class="ml-3" @click="doSomeAction">Save policy</v-btn>
         <v-row>
           <v-col
             :cols="form.cols"
-            v-for="form in $store.state.product.forms"
+            v-for="form in $store.state.product.product.forms"
             v-bind:key="form.name"
           >
             <v-form :ref="form.name">
@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import { Product } from "../schemas/product";
+import { Product } from "../schemas/insurer/products";
 import { firestore } from "firebase";
 const ProductField = () => import("@/components/ProductField.vue");
 const AddFieldDialog = () => import("@/components/AddFieldDialog.vue");
@@ -55,19 +55,19 @@ export default class HelloWorld extends Vue {
   private product?: firestore.DocumentReference<Product> | null = null;
 
   mounted() {
-    this.$store.dispatch("bindInsurers");
+    this.$store.dispatch("product/bindInsurers");
   }
 
   @Watch("product")
   async onProductChoose() {
     if (this.product) {
-      this.$store.dispatch("bindInsurerProduct", this.product.id);
-      this.$store.dispatch("getPolicy", "EOKcIGFDtisYOrpNw1Z2");
+      this.$store.dispatch("product/bindInsurerProduct", this.product.id);
+      this.$store.dispatch("product/getPolicy", "EOKcIGFDtisYOrpNw1Z2");
     }
   }
 
   doSomeAction() {
-    this.$store.dispatch("savePolicy", "EOKcIGFDtisYOrpNw1Z2");
+    this.$store.dispatch("product/savePolicy", "EOKcIGFDtisYOrpNw1Z2");
   }
 }
 </script>

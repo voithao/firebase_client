@@ -11,27 +11,19 @@ const db = firebase
   .initializeApp(config)
   .firestore()
 const auth = firebase.auth()
-const currentUser = auth.currentUser
 
 // For prototyping we sign in anonymously
 // auth.signInAnonymously()
 
 auth.onAuthStateChanged(user => {
-  store.commit('updateUser', { user })
+  store.commit('user/updateUser', { user })
 })
 
 const settings = {
 }
 db.settings(settings)
 
-// firebase collections
-const usersCollection = db.collection('users')
-const productsCollection = db.collection('products')
-
 export {
   db,
-  auth,
-  currentUser,
-  usersCollection,
-  productsCollection,
+  auth
 }

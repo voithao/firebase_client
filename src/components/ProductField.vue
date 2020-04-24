@@ -48,9 +48,9 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import Mustache from "mustache";
 import { db } from "@/firebaseConfig";
-import { FormFieldDef } from "../schemas/product";
-import { ClassifierItem } from "../schemas/classifier";
-import { PolicyField } from "../schemas/policy";
+import { FormFieldDef } from "@/schemas/insurer/products";
+import { ClassifierItem } from "@/schemas/classifier";
+import { PolicyField } from "@/schemas/policy";
 const PeriodField = () => import("@/components/PeriodField.vue");
 
 @Component({
@@ -83,13 +83,16 @@ export default class ProductField extends Vue {
       if (
         this.$store &&
         this.$store.state &&
-        this.$store.state.policy &&
-        this.$store.state.policy.data &&
-        this.$store.state.policy.data[this.form] &&
-        this.$store.state.policy.data[this.form].fields &&
-        this.$store.state.policy.data[this.form].fields[this.field.id]
+        this.$store.state.product &&
+        this.$store.state.product.policy &&
+        this.$store.state.product.policy.data &&
+        this.$store.state.product.policy.data[this.form] &&
+        this.$store.state.product.policy.data[this.form].fields &&
+        this.$store.state.product.policy.data[this.form].fields[this.field.id]
       ) {
-        return this.$store.state.policy.data[this.form].fields[this.field.id];
+        return this.$store.state.product.policy.data[this.form].fields[
+          this.field.id
+        ];
       } else {
         let field: PolicyField = "no data";
         if (this.field.default) {
@@ -107,7 +110,7 @@ export default class ProductField extends Vue {
             field = "";
           }
         }
-        this.$store.commit("setPolicyField", {
+        this.$store.commit("product/setPolicyField", {
           form: this.form,
           field: this.field.id,
           value: field
@@ -124,11 +127,13 @@ export default class ProductField extends Vue {
   }
 
   prepeareFunction(funcText: string): string {
-    return Mustache.render(funcText, { policy: this.$store.state.policy.data });
+    return Mustache.render(funcText, {
+      policy: this.$store.state.product.policy.data
+    });
   }
 
   setData(data: string | number) {
-    this.$store.commit("setPolicyField", {
+    this.$store.commit("product/setPolicyField", {
       form: this.form,
       field: this.field.id,
       value: data
