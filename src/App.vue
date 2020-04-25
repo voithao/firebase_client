@@ -4,8 +4,14 @@
       <v-app-bar app color="secondary" dark>
         <v-tabs align-with-title>
           <v-tab to="/">Home</v-tab>
-          <v-tab to="/products">Products</v-tab>
-          <v-tab to="/admin">Admin</v-tab>
+          <v-tab
+            to="/products"
+            v-if="$store.state.user && $store.state.user.profile && $store.state.user.profile.isInsurer"
+          >Products</v-tab>
+          <v-tab
+            v-if="$store.state.user && $store.state.user.profile && $store.state.user.profile.isAdmin"
+            to="/admin"
+          >Admin</v-tab>
           <v-tab to="/about">About</v-tab>
         </v-tabs>
         <v-spacer></v-spacer>

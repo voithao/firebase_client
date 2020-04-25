@@ -5,9 +5,11 @@ import { User } from 'firebase'
 import {VuexModule} from 'vuex-module-decorators'
 import {Policy} from '@/schemas/user/policy'
 import {FormFieldDefType} from '@/schemas/insurer/products'
+import {UserProfile} from '@/schemas/user'
 
 type UserState = {
   user: User | null;
+  profile: UserProfile | null;
   policy: Policy | null;
 }
 
@@ -21,6 +23,7 @@ export default new VuexModule<UserState>({
   namespaced: true,
   state: {
     user: null,
+    profile: null,
     policy: null
   },
   mutations: {
@@ -43,6 +46,11 @@ export default new VuexModule<UserState>({
     }
   },
   actions: {
+    bindUserProfile: firestoreAction(({bindFirestoreRef, state}) => {
+      if (state.user) {
+        return bindFirestoreRef('profile', db.collection('users').doc(state.user.uid))
+      }
+    }),
     getPolicy: firestoreAction(async (context, id: string) => {
       db.collection('policies').doc(id).get().then(snapshot => {
         const policy = snapshot.data()

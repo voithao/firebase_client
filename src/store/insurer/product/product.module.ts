@@ -1,6 +1,5 @@
 import {VuexModule} from 'vuex-module-decorators'
 import { firestoreAction } from 'vuexfire'
-import { firestore } from 'firebase'
 import { db } from "@/firebaseConfig"
 import { Classifier } from '@/schemas/classifier'
 import {ProductFormDef} from '@/schemas/insurer/products'
@@ -8,12 +7,6 @@ import {ProductFormDef} from '@/schemas/insurer/products'
 type ProductState = {
   fieldTypes: Array<Classifier> | null;
   product: ProductFormDef | null;
-}
-
-type AdminDataPayload = {
-  collection: string;
-  id: string;
-  doc: firestore.DocumentReference<string> | null;
 }
 
 export default new VuexModule<ProductState>({

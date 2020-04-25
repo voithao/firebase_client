@@ -15,8 +15,9 @@ const auth = firebase.auth()
 // For prototyping we sign in anonymously
 // auth.signInAnonymously()
 
-auth.onAuthStateChanged(user => {
+auth.onAuthStateChanged(async user => {
   store.commit('user/updateUser', { user })
+  store.dispatch('user/bindUserProfile')
 })
 
 const settings = {
