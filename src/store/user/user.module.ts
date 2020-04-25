@@ -51,15 +51,15 @@ export default new VuexModule<UserState>({
         return bindFirestoreRef('profile', db.collection('users').doc(state.user.uid))
       }
     }),
-    getPolicy: firestoreAction(async (context, id: string) => {
-      db.collection('policies').doc(id).get().then(snapshot => {
+    getPolicy: firestoreAction(async ({commit, state}, id: string) => {
+      db.collection('users').doc(state.user?.uid).collection('policies').doc(id).get().then(snapshot => {
         const policy = snapshot.data()
-        context.commit('setPolicy', policy)
+        commit('setPolicy', policy)
       })
     }),
     savePolicy: firestoreAction(({state}, id: string) => {
       if (state.policy) {
-        return db
+        return db.collection('users').doc(state.user?.uid)
           .collection('policies')
           .doc(id)
           .set(Object.assign({}, state.policy), { merge: true });

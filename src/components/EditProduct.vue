@@ -1,22 +1,22 @@
 <template>
   <div>
-    <div v-if="$store.state.product.insurers.length > 0">
+    <div v-if="$store.state.insurer.insurers.length > 0">
       <h1>{{ msg }}</h1>
       <v-combobox
         label="Choose a product"
-        :v-if="$store.state.product.insurers"
-        :items="$store.state.product.insurers[0].products"
+        :v-if="$store.state.insurer.insurers"
+        :items="$store.state.insurer.insurers[0].products"
         v-model="product"
         item-text="name"
         item-value="id"
       ></v-combobox>
-      <span v-if="$store.state.product.product && $store.state.user.policy">
+      <span v-if="$store.state.insurer.product && $store.state.user.policy">
         <add-field-dialog />
         <v-btn color="primary" class="ml-3" @click="savePolicy">Save policy</v-btn>
         <v-row>
           <v-col
             :cols="form.cols"
-            v-for="form in $store.state.product.product.forms"
+            v-for="form in $store.state.insurer.product.product.forms"
             v-bind:key="form.name"
           >
             <v-form :ref="form.name">
@@ -55,19 +55,22 @@ export default class HelloWorld extends Vue {
   private product?: firestore.DocumentReference<Product> | null = null;
 
   mounted() {
-    this.$store.dispatch("product/bindInsurers");
+    this.$store.dispatch("insurer/bindInsurers");
   }
 
   @Watch("product")
   async onProductChoose() {
     if (this.product) {
-      this.$store.dispatch("product/bindInsurerProduct", this.product.id);
-      this.$store.dispatch("user/getPolicy", "EOKcIGFDtisYOrpNw1Z2");
+      this.$store.dispatch(
+        "insurer/product/bindInsurerProduct",
+        this.product.id
+      );
+      this.$store.dispatch("user/getPolicy", "fZvEjkrNuJNuvSnnp0gp");
     }
   }
 
   savePolicy() {
-    this.$store.dispatch("user/savePolicy", "EOKcIGFDtisYOrpNw1Z2");
+    this.$store.dispatch("user/savePolicy", "fZvEjkrNuJNuvSnnp0gp");
   }
 }
 </script>

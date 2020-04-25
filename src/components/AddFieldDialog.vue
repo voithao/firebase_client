@@ -12,8 +12,8 @@
           <v-row>
             <v-col cols="12">
               <v-combobox
-                v-if="$store.state.product.fieldTypes && $store.state.product.fieldTypes[0]"
-                :items="$store.state.product.fieldTypes[0].values"
+                v-if="$store.state.insurer.product.fieldTypes && $store.state.insurer.product.fieldTypes[0]"
+                :items="$store.state.insurer.product.fieldTypes[0].values"
                 label="Choose field to add*"
                 item-text="name"
                 item-value="name"
@@ -54,7 +54,7 @@ export default class AddFieldDialog extends Vue {
   private dialog = false;
 
   mounted() {
-    this.$store.dispatch("product/bindFieldTypes");
+    this.$store.dispatch("insurer/product/bindFieldTypes");
   }
 }
 </script>
