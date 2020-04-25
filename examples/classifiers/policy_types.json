@@ -1,0 +1,75 @@
+{
+  "name": "PRODUCT_TYPES",
+  "values": [
+    {
+      "id": "personal_car",
+      "type": "personal",
+      "image": "https://i.picsum.photos/id/1071/510/300.jpg",
+      "name": "Car Insurance",
+      "description": "Drive with the peace of mind knowing that both you and your car are protected."
+    },
+    {
+      "id": "personal_home",
+      "type": "personal",
+      "image": "https://i.picsum.photos/id/1008/510/300.jpg",
+      "name": "Home Insurance",
+      "description": "New house or reviewing your current home policy? We’re here every step of the way."
+    },
+    {
+      "id": "personal_rent",
+      "type": "personal",
+      "image": "https://i.picsum.photos/id/164/510/300.jpg",
+      "name": "Renters Insurance",
+      "description": "We all need to protect our personal possessions, even if we don’t own a house."
+    },
+    {
+      "id": "personal_flood",
+      "type": "personal",
+      "image": "https://i.picsum.photos/id/302/510/300.jpg",
+      "name": "Flood Insurance",
+      "description": "What are the options and what is right for you? Let’s begin the conversation."
+    },
+    {
+      "id": "personal_life",
+      "type": "personal",
+      "image": "https://i.picsum.photos/id/1001/510/300.jpg",
+      "name": "Life Insurance & Annuities",
+      "description": "Clark is here to help you protect your family and your future with confidence."
+    },
+    {
+      "id": "personal_recr_vehicle",
+      "type": "personal",
+      "image": "https://i.picsum.photos/id/1011/510/300.jpg",
+      "name": "Recreational Vehicle Insurance",
+      "description": "Coverage that protects your boats, yachts, jet skis and more."
+    },
+    {
+      "id": "personal_pet",
+      "type": "personal",
+      "image": "https://picsum.photos/id/237/510/300",
+      "name": "Pet Insurance",
+      "description": "Providing protection and coverage for every member of the family."
+    },
+    {
+      "id": "personal_umbrella",
+      "type": "personal",
+      "image": "https://picsum.photos/id/342/510/300",
+      "name": "Personal Umbrella Insurance",
+      "description": "Protection beyond homeowners or auto insurance policies. Is it right for you?"
+    },
+    {
+      "id": "personal_longterm",
+      "type": "personal",
+      "image": "https://picsum.photos/id/389/510/300",
+      "name": "Long-Term Care",
+      "description": "As we live longer, planning for care becomes increasingly important."
+    },
+    {
+      "id": "personal_medicare",
+      "type": "personal",
+      "image": "https://picsum.photos/id/395/510/300",
+      "name": "Medicare",
+      "description": "Our Medicare representative will walk you through the process, step by step."
+    }
+  ]
+}

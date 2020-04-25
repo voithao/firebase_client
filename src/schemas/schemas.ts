@@ -1,4 +1,4 @@
-import {Classifier} from './classifier'
+import {Classifier} from './classifier/classifier'
 import {Insurer} from './insurer'
 import {Policy} from './user/policy'
 import {Product} from './insurer/products'

@@ -1,7 +1,7 @@
 import {VuexModule} from 'vuex-module-decorators'
 import { firestoreAction } from 'vuexfire'
 import { db } from "@/firebaseConfig"
-import { Classifier } from '@/schemas/classifier'
+import { Classifier } from '@/schemas/classifier/classifier'
 import {ProductFormDef} from '@/schemas/insurer/products'
 
 type ProductState = {

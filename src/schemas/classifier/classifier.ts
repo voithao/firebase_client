@@ -1,3 +1,11 @@
+export interface PolicyType {
+  id: string
+  type: string
+  image: string
+  name: string
+  description: string
+}
+
 /** Classifier can be text value pair array */
 export interface ClassifierItem {
   /** Classifier text value, visible in list */
@@ -14,5 +22,5 @@ export interface Classifier {
    * List of classifier values.
    * Only string arrays, as we store classifiers not using code
    */
-  values: string[] | ClassifierItem[]
+  values: string[] | ClassifierItem[] | PolicyType []
 }

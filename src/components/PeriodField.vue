@@ -55,7 +55,7 @@ import moment from "moment";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { db } from "@/firebaseConfig";
 import { FormFieldDef } from "../schemas/insurer/products";
-import { ClassifierItem } from "../schemas/classifier";
+import { ClassifierItem } from "../schemas/classifier/classifier";
 
 interface FieldValue {
   from: string;
