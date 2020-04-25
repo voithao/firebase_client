@@ -7,6 +7,7 @@ import {FormFieldDefType} from '@/schemas/insurer/products'
 
 type PolicyState = {
   policy: Policy | null;
+  policies: Policy[];
 }
 
 type FormFieldPayload = {
@@ -18,7 +19,8 @@ type FormFieldPayload = {
 export default new VuexModule<PolicyState>({
   namespaced: true,
   state: {
-    policy: null
+    policy: null,
+    policies: []
   },
   mutations: {
     setPolicy(state: PolicyState, object) {
@@ -37,6 +39,9 @@ export default new VuexModule<PolicyState>({
     }
   },
   actions: {
+    bindPolicies: firestoreAction(({bindFirestoreRef}) => {
+      return bindFirestoreRef('policies', db.collection('users').doc(auth.currentUser?.uid).collection('policies'))
+    }),
     getPolicy: firestoreAction(async ({commit}, id: string) => {
       db.collection('users').doc(auth.currentUser?.uid).collection('policies').doc(id).get().then(snapshot => {
         const policy = snapshot.data()
