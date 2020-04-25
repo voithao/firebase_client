@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
 import store from '../store'
+import {getCurrentUser} from '@/firebaseConfig'
 
 Vue.use(VueRouter)
 
@@ -57,7 +58,8 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
+  await getCurrentUser()
   if (to.matched.some(record => record.meta.authRequred)) {
     // eslint-disable-next-line
     if (!(store.state as any).user || !(store.state as any).user.user) {

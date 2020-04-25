@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div v-if="$store.state.user && $store.state.user.policy.policies">
+  <div v-if="$store.state.user.user">
+    <div v-if="$store.state.user.policy.policies">
       Your active policies:
       <br />
       <div v-for="policy in $store.state.user.policy.policies" v-bind:key="policy.id">
@@ -27,7 +27,6 @@ const ProductCard = () => import("@/components/ProductCard.vue");
 })
 export default class PurchaseForm extends Vue {
   mounted() {
-    this.$store.dispatch("user/policy/bindPolicies");
     this.$store.dispatch("classifier/getClasifier", "PRODUCT_TYPES");
   }
 }
