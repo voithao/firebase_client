@@ -17,8 +17,8 @@ service cloud.firestore {
       allow read: if true;
       allow write: if true;
 		}
-    match /users/{document=**} {
-      allow read: if true;
+    match /users/{user}/{document=**} {
+      allow read: if user == request.auth.uid;
       allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin;
 		}
   }
