@@ -6,10 +6,10 @@
           <v-tab to="/">Home</v-tab>
           <v-tab
             to="/products"
-            v-if="$store.state.user && $store.state.user.profile && $store.state.user.profile.isInsurer"
+            v-if="$store.state.user && $store.state.user.profile && $store.state.user.user && $store.state.user.profile.isInsurer"
           >Products</v-tab>
           <v-tab
-            v-if="$store.state.user && $store.state.user.profile && $store.state.user.profile.isAdmin"
+            v-if="$store.state.user && $store.state.user.profile && $store.state.user.user && $store.state.user.profile.isAdmin"
             to="/admin"
           >Admin</v-tab>
           <v-tab to="/about">About</v-tab>
