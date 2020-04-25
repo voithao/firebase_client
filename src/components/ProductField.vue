@@ -85,12 +85,15 @@ export default class ProductField extends Vue {
         this.$store.state &&
         this.$store.state.user &&
         this.$store.state.user.policy &&
-        this.$store.state.user.policy.data &&
-        this.$store.state.user.policy.data[this.form] &&
-        this.$store.state.user.policy.data[this.form].fields &&
-        this.$store.state.user.policy.data[this.form].fields[this.field.id]
+        this.$store.state.user.policy.policy &&
+        this.$store.state.user.policy.policy.data &&
+        this.$store.state.user.policy.policy.data[this.form] &&
+        this.$store.state.user.policy.policy.data[this.form].fields &&
+        this.$store.state.user.policy.policy.data[this.form].fields[
+          this.field.id
+        ]
       ) {
-        return this.$store.state.user.policy.data[this.form].fields[
+        return this.$store.state.user.policy.policy.data[this.form].fields[
           this.field.id
         ];
       } else {
@@ -110,7 +113,7 @@ export default class ProductField extends Vue {
             field = "";
           }
         }
-        this.$store.commit("user/setPolicyField", {
+        this.$store.commit("user/policy/setPolicyField", {
           form: this.form,
           field: this.field.id,
           value: field
@@ -128,12 +131,12 @@ export default class ProductField extends Vue {
 
   prepeareFunction(funcText: string): string {
     return Mustache.render(funcText, {
-      policy: this.$store.state.user.policy.data
+      policy: this.$store.state.user.policy.policy.data
     });
   }
 
   setData(data: string | number) {
-    this.$store.commit("user/setPolicyField", {
+    this.$store.commit("user/policy/setPolicyField", {
       form: this.form,
       field: this.field.id,
       value: data

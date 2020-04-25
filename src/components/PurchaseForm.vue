@@ -1,7 +1,9 @@
 <template>
   <div>
-    <div>Your active policies:</div>
-    Choose your policy:</div>
+    <div v-if="$store.state.user.policies">Your active policies:</div>
+
+    <div>Choose your policy:</div>
+  </div>
 </template>
 
 <script lang="ts">

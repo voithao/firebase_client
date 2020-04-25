@@ -10,7 +10,7 @@
         item-text="name"
         item-value="id"
       ></v-combobox>
-      <span v-if="$store.state.insurer.product && $store.state.user.policy">
+      <span v-if="$store.state.insurer.product && $store.state.user.policy.policy">
         <add-field-dialog />
         <v-btn color="primary" class="ml-3" @click="savePolicy">Save policy</v-btn>
         <v-row>
@@ -65,12 +65,12 @@ export default class HelloWorld extends Vue {
         "insurer/product/bindInsurerProduct",
         this.product.id
       );
-      this.$store.dispatch("user/getPolicy", "fZvEjkrNuJNuvSnnp0gp");
+      this.$store.dispatch("user/policy/getPolicy", "fZvEjkrNuJNuvSnnp0gp");
     }
   }
 
   savePolicy() {
-    this.$store.dispatch("user/savePolicy", "fZvEjkrNuJNuvSnnp0gp");
+    this.$store.dispatch("user/policy/savePolicy", "fZvEjkrNuJNuvSnnp0gp");
   }
 }
 </script>

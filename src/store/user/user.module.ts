@@ -3,14 +3,13 @@ import { firestoreAction } from 'vuexfire'
 import { db } from "@/firebaseConfig"
 import { User } from 'firebase'
 import {VuexModule} from 'vuex-module-decorators'
-import {Policy} from '@/schemas/user/policy'
 import {FormFieldDefType} from '@/schemas/insurer/products'
 import {UserProfile} from '@/schemas/user'
+import policy from '@/store/user/policy/policy.module'
 
 type UserState = {
   user: User | null;
   profile: UserProfile | null;
-  policy: Policy | null;
 }
 
 type FormFieldPayload = {
@@ -23,26 +22,11 @@ export default new VuexModule<UserState>({
   namespaced: true,
   state: {
     user: null,
-    profile: null,
-    policy: null
+    profile: null
   },
   mutations: {
     updateUser (state, { user }) {
       Vue.set(state, 'user', user)
-    },
-    setPolicy(state: UserState, object) {
-      state.policy = object
-    },
-    setPolicyField(state: UserState, payload: FormFieldPayload) {
-      if (!state.policy) {
-        state.policy = new Policy()
-      }
-      if (!state.policy.data[payload.form]) {
-        const fields: Record<string, FormFieldDefType> = {}
-        fields[payload.field] = payload.value
-        Vue.set(state.policy.data, payload.form, { fields })
-      }
-      Vue.set(state.policy.data[payload.form].fields, payload.field, payload.value)
     }
   },
   actions: {
@@ -50,20 +34,9 @@ export default new VuexModule<UserState>({
       if (state.user) {
         return bindFirestoreRef('profile', db.collection('users').doc(state.user.uid))
       }
-    }),
-    getPolicy: firestoreAction(async ({commit, state}, id: string) => {
-      db.collection('users').doc(state.user?.uid).collection('policies').doc(id).get().then(snapshot => {
-        const policy = snapshot.data()
-        commit('setPolicy', policy)
-      })
-    }),
-    savePolicy: firestoreAction(({state}, id: string) => {
-      if (state.policy) {
-        return db.collection('users').doc(state.user?.uid)
-          .collection('policies')
-          .doc(id)
-          .set(Object.assign({}, state.policy), { merge: true });
-      }
     })
+  },
+  modules: {
+    policy
   }
 });
