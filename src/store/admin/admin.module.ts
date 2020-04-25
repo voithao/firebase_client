@@ -3,14 +3,8 @@ import { firestoreAction } from 'vuexfire'
 import { firestore } from 'firebase'
 import { db } from "@/firebaseConfig"
 import {Schema} from '@/schemas/schemas'
-import { Classifier } from '@/schemas/classifier'
-import {Insurer} from '@/schemas/insurer'
-import {ProductFormDef} from '@/schemas/insurer/products'
 
-type ProductState = {
-  fieldTypes: Array<Classifier> | null;
-  insurers: Array<Insurer> | null;
-  product: ProductFormDef | null;
+type AdminState = {
   data: Array<Schema> | null;
 }
 
@@ -20,12 +14,9 @@ type AdminDataPayload = {
   doc: firestore.DocumentReference<string> | null;
 }
 
-export default new VuexModule<ProductState>({
+export default new VuexModule<AdminState>({
   namespaced: true,
   state: {
-    fieldTypes: [],
-    insurers: [],
-    product: null,
     data: null
   },
   mutations: {
@@ -33,19 +24,6 @@ export default new VuexModule<ProductState>({
   actions: {
     bindCustomData: firestoreAction(({bindFirestoreRef}, path: AdminDataPayload) => {
       return bindFirestoreRef('data', db.collection(path.collection).doc(path.id)) 
-    }),
-    bindInsurers: firestoreAction(({bindFirestoreRef}) => {
-      return bindFirestoreRef('insurers', db.collection('insurers'))
-    }),
-    bindFieldTypes: firestoreAction(({bindFirestoreRef}) => {
-      return bindFirestoreRef('fieldTypes', db.collection('classifier').where('name', '==', 'fieldTypes'))
-    }),
-    bindInsurerProduct: firestoreAction(({bindFirestoreRef}, id: string) => {
-      return bindFirestoreRef('product', db.collection('/insurers/sLZN4sLaKZvGC9OYTFpe/products').doc(id))
-    }),
-    addProduct: firestoreAction(() => {
-      return db.collection('products')
-        .add({ name: 'new product name'})
     }),
     saveDoc: firestoreAction(async (...args ) => {
       const payload: AdminDataPayload = args[1]

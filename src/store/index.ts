@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { vuexfireMutations } from 'vuexfire'
 import user from '@/store/user/user.module'
-import product from '@/store/product/product.module'
+import insurer from '@/store/insurer/insurer.module'
+import admin from '@/store/admin/admin.module'
 
 Vue.use(Vuex)
 
@@ -19,6 +20,7 @@ export default new Vuex.Store<RootState>({
   },
   modules: {
     user,
-    product
+    insurer,
+    admin
   }
 })

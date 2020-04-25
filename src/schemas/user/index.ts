@@ -4,9 +4,12 @@
 export interface UserProfile {
   firstname: string
   surename: string
-  uuid: string
   /**
    * Has user administritive rights for whole system
    */
-  isAdmin: boolean
+  isAdmin?: boolean | undefined
+  /**
+   * User has enabled product definition
+   */
+  isInsurer?: boolean | undefined
 }
