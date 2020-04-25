@@ -1,0 +1,34 @@
+{
+  "insurer": "",
+  "description": "",
+  "code": "",
+  "owner": "96h1Wm7Iw7c9m4XMoaMmXXV7N9O2",
+  "number": "",
+  "data": {
+    "custom": {
+      "fields": {
+        "to": "2020-04-25",
+        "from": "2020-04-25",
+        "period": "Other"
+      }
+    },
+    "detail": {
+      "fields": {
+        "plate": "AM-234987"
+      }
+    },
+    "base": {
+      "fields": {
+        "to": "2020-04-16",
+        "periodfield": {
+          "from": "2020-04-17",
+          "period": "MONTH1",
+          "to": "2020-05-17"
+        },
+        "from": "2020-04-12",
+        "period": "Other"
+      }
+    }
+  },
+  "product": ""
+}

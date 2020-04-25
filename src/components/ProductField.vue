@@ -50,7 +50,7 @@ import Mustache from "mustache";
 import { db } from "@/firebaseConfig";
 import { FormFieldDef } from "@/schemas/insurer/products";
 import { ClassifierItem } from "@/schemas/classifier";
-import { PolicyField } from "@/schemas/policy";
+import { PolicyField } from "@/schemas/user/policy";
 const PeriodField = () => import("@/components/PeriodField.vue");
 
 @Component({
@@ -83,14 +83,14 @@ export default class ProductField extends Vue {
       if (
         this.$store &&
         this.$store.state &&
-        this.$store.state.product &&
-        this.$store.state.product.policy &&
-        this.$store.state.product.policy.data &&
-        this.$store.state.product.policy.data[this.form] &&
-        this.$store.state.product.policy.data[this.form].fields &&
-        this.$store.state.product.policy.data[this.form].fields[this.field.id]
+        this.$store.state.user &&
+        this.$store.state.user.policy &&
+        this.$store.state.user.policy.data &&
+        this.$store.state.user.policy.data[this.form] &&
+        this.$store.state.user.policy.data[this.form].fields &&
+        this.$store.state.user.policy.data[this.form].fields[this.field.id]
       ) {
-        return this.$store.state.product.policy.data[this.form].fields[
+        return this.$store.state.user.policy.data[this.form].fields[
           this.field.id
         ];
       } else {
@@ -110,7 +110,7 @@ export default class ProductField extends Vue {
             field = "";
           }
         }
-        this.$store.commit("product/setPolicyField", {
+        this.$store.commit("user/setPolicyField", {
           form: this.form,
           field: this.field.id,
           value: field
@@ -128,12 +128,12 @@ export default class ProductField extends Vue {
 
   prepeareFunction(funcText: string): string {
     return Mustache.render(funcText, {
-      policy: this.$store.state.product.policy.data
+      policy: this.$store.state.user.policy.data
     });
   }
 
   setData(data: string | number) {
-    this.$store.commit("product/setPolicyField", {
+    this.$store.commit("user/setPolicyField", {
       form: this.form,
       field: this.field.id,
       value: data

@@ -146,7 +146,7 @@ export default class PeriodField extends Vue {
   }
 
   setData(data: FieldValue) {
-    this.$store.commit("product/setPolicyField", {
+    this.$store.commit("user/setPolicyField", {
       form: this.form,
       field: this.field.id,
       value: data
@@ -164,14 +164,14 @@ export default class PeriodField extends Vue {
     if (
       this.$store &&
       this.$store.state &&
-      this.$store.state.product &&
-      this.$store.state.product.policy &&
-      this.$store.state.product.policy.data &&
-      this.$store.state.product.policy.data[this.form] &&
-      this.$store.state.product.policy.data[this.form].fields &&
-      this.$store.state.product.policy.data[this.form].fields[this.field.id]
+      this.$store.state.user &&
+      this.$store.state.user.policy &&
+      this.$store.state.user.policy.data &&
+      this.$store.state.user.policy.data[this.form] &&
+      this.$store.state.user.policy.data[this.form].fields &&
+      this.$store.state.user.policy.data[this.form].fields[this.field.id]
     ) {
-      this.fieldvalue = this.$store.state.product.policy.data[this.form].fields[
+      this.fieldvalue = this.$store.state.user.policy.data[this.form].fields[
         this.field.id
       ];
     }

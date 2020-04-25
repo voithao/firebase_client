@@ -3,16 +3,16 @@
     <h1>Administration</h1>
     <v-text-field v-model="collection" label="Enter collection path:"></v-text-field>
     <v-text-field v-model="id" label="Enter doc id:"></v-text-field>
-    <v-btn v-if="this.collection && this.id" @click="bindDocument()">Load</v-btn>
+    <v-btn @click="bindDocument()">Load</v-btn>
     <v-textarea v-if="this.collection" label="Document value" :value="value" @input="setJSONDoc"></v-textarea>
     <v-btn
-      v-if="$store.state.data && this.collection && this.id"
+      v-if="$store.state.product && $store.state.product.data && this.collection && this.id"
       :disabled="!saveEnabled"
       @click="saveDoc()"
       color="primary"
     >Save</v-btn>
     <v-btn
-      v-if="!$store.state.data && this.collection && !this.id"
+      v-if="!$store.state.product && !$store.state.product.data && this.collection && !this.id"
       :disabled="!createEnabled"
       @click="saveDoc()"
       color="primary"
@@ -30,7 +30,7 @@ export default class AdminView extends Vue {
   private updated: string | null = null;
 
   bindDocument() {
-    this.$store.dispatch("bindCustomData", {
+    this.$store.dispatch("product/bindCustomData", {
       collection: this.collection,
       id: this.id
     });
@@ -38,11 +38,16 @@ export default class AdminView extends Vue {
   }
 
   get value() {
-    return JSON.stringify(this.$store.state.data);
+    return JSON.stringify(this.$store.state.product.data);
   }
 
   get saveEnabled() {
-    return this.updated && this.$store.state.data && this.collection && this.id;
+    return (
+      this.updated &&
+      this.$store.state.product.data &&
+      this.collection &&
+      this.id
+    );
   }
 
   get createEnabled() {
@@ -55,7 +60,7 @@ export default class AdminView extends Vue {
 
   async saveDoc() {
     if (this.updated && this.collection) {
-      const result = await this.$store.dispatch("saveDoc", {
+      const result = await this.$store.dispatch("product/saveDoc", {
         doc: this.updated,
         collection: this.collection,
         id: this.id

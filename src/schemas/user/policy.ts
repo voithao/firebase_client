@@ -1,5 +1,5 @@
-import {Product} from './insurer/products'
-import {Insurer} from './insurer'
+import {Product} from '../insurer/products'
+import {Insurer} from '../insurer'
 
 export type PolicyField = string | number 
 
