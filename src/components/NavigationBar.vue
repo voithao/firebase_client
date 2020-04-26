@@ -4,16 +4,20 @@
       <v-app-bar-nav-icon @click="drawer = !drawer" />
       <span class="title ml-3 mr-5">Voithao</span>
       <v-spacer></v-spacer>
-      <v-btn
-        to="/products"
-        v-if="$store.state.user && $store.state.user.profile && $store.state.user.user && $store.state.user.profile.isInsurer"
-        text
-      >Products</v-btn>
-      <v-btn
-        to="/admin"
-        v-if="$store.state.user && $store.state.user.profile && $store.state.user.user && $store.state.user.profile.isAdmin"
-        text
-      >Admin</v-btn>
+      <div class="d-none d-sm-block">
+        <v-btn
+          to="/products"
+          v-if="$store.state.user && $store.state.user.profile && $store.state.user.user && $store.state.user.profile.isInsurer"
+          text
+        >Products</v-btn>
+      </div>
+      <div class="d-none d-sm-block">
+        <v-btn
+          to="/admin"
+          v-if="$store.state.user && $store.state.user.profile && $store.state.user.user && $store.state.user.profile.isAdmin"
+          text
+        >Admin</v-btn>
+      </div>
       <v-btn to="/login" v-show="!$store.state.user.user" text>Login</v-btn>
       <v-btn to="/logout" v-show="!!$store.state.user.user" text>Logout</v-btn>
     </v-app-bar>
