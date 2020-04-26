@@ -18,7 +18,7 @@ export default new VuexModule<ClassifierState>({
     }
   },
   actions: {
-    getClasifier: firestoreAction(async ({commit}, id: string) => {
+    getProductTypes: firestoreAction(async ({commit}, id: string) => {
       db.collection('classifier')
         .where('name', '==', id).get()
         .then(snapshot => {

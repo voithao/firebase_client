@@ -1,44 +1,55 @@
 <template>
   <div>
-    <div v-if="$store.state.insurer.insurers.length > 0">
-      <h1>{{ msg }}</h1>
-      <v-combobox
-        label="Choose a product"
-        :v-if="$store.state.insurer.insurers"
-        :items="$store.state.insurer.insurers[0].products"
-        v-model="product"
-        item-text="name"
-        item-value="id"
-      ></v-combobox>
-      <span v-if="$store.state.insurer.product && $store.state.user.policy.policy">
-        <add-field-dialog />
-        <v-btn color="primary" class="ml-3" @click="savePolicy">Save policy</v-btn>
-        <v-row>
-          <v-col
-            :cols="form.cols"
-            v-for="form in $store.state.insurer.product.product.forms"
-            v-bind:key="form.name"
-          >
-            <v-form :ref="form.name">
-              <v-card outlined class="pa-4">
-                <product-field
-                  v-for="field in form.fields"
-                  v-bind:key="field.name"
-                  :field="field"
-                  :form="form.name"
-                />
-              </v-card>
-            </v-form>
-            Total fields: {{ form.fields.length }}
-          </v-col>
-        </v-row>
-      </span>
-    </div>
+    <span
+      v-if="$store.state.insurer && $store.state.insurer.product.product && $store.state.user.policy.policy"
+    >
+      <v-row>
+        <v-col cols="6">
+          <v-text-field label="Code" v-model="$store.state.insurer.product.product.code"></v-text-field>
+        </v-col>
+        <v-col cols="6">
+          <v-autocomplete
+            v-model="$store.state.insurer.product.product.type"
+            item-text="name"
+            item-value="id"
+            :return-object="false"
+            :items="$store.state.classifier.productTypes"
+          ></v-autocomplete>
+        </v-col>
+        <v-col cols="12">
+          <v-text-field
+            label="Description"
+            v-model="$store.state.insurer.product.product.description"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <add-field-dialog />
+      <v-btn color="primary" class="ml-3" @click="savePolicy">Save policy</v-btn>
+      <v-row>
+        <v-col
+          :cols="form.cols"
+          v-for="form in $store.state.insurer.product.product.forms"
+          v-bind:key="form.name"
+        >
+          <v-form :ref="form.name">
+            <v-card outlined class="pa-4">
+              <product-field
+                v-for="field in form.fields"
+                v-bind:key="field.name"
+                :field="field"
+                :form="form.name"
+              />
+            </v-card>
+          </v-form>
+          Total fields: {{ form.fields.length }}
+        </v-col>
+      </v-row>
+    </span>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import { Product } from "../schemas/insurer/products";
 import { firestore } from "firebase";
 const ProductField = () => import("@/components/ProductField.vue");
@@ -50,23 +61,17 @@ const AddFieldDialog = () => import("@/components/AddFieldDialog.vue");
     AddFieldDialog
   }
 })
-export default class HelloWorld extends Vue {
-  @Prop() private msg!: string;
+export default class EditProduct extends Vue {
   private product?: firestore.DocumentReference<Product> | null = null;
 
   mounted() {
     this.$store.dispatch("insurer/bindInsurers");
-  }
-
-  @Watch("product")
-  async onProductChoose() {
-    if (this.product) {
-      this.$store.dispatch(
-        "insurer/product/bindInsurerProduct",
-        this.product.id
-      );
-      this.$store.dispatch("user/policy/getPolicy", "fZvEjkrNuJNuvSnnp0gp");
-    }
+    this.$store.dispatch("classifier/getProductTypes", "PRODUCT_TYPES");
+    this.$store.dispatch(
+      "insurer/product/bindInsurerProduct",
+      this.$route.params.id
+    );
+    this.$store.dispatch("user/policy/getPolicy", "fZvEjkrNuJNuvSnnp0gp");
   }
 
   savePolicy() {

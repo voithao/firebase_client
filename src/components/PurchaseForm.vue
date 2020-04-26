@@ -32,7 +32,7 @@ const ProductCard = () => import("@/components/ProductCard.vue");
 })
 export default class PurchaseForm extends Vue {
   mounted() {
-    this.$store.dispatch("classifier/getClasifier", "PRODUCT_TYPES");
+    this.$store.dispatch("classifier/getProductTypes", "PRODUCT_TYPES");
   }
 }
 </script>

@@ -1,16 +1,15 @@
 <template>
   <div>
-    <EditProduct />
+    <ProductList />
   </div>
 </template>
 
 <script>
-const EditProduct = () => import("@/components/EditProduct.vue");
+const ProductList = () => import("@/components/ProductList.vue");
 
 export default {
-  name: "Home",
   components: {
-    EditProduct
+    ProductList
   }
 };
 </script>

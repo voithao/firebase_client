@@ -6,6 +6,7 @@ import {ProductFormDef} from '@/schemas/insurer/products'
 
 type ProductState = {
   fieldTypes: Array<Classifier> | null;
+  products: Array<ProductFormDef>;
   product: ProductFormDef | null;
 }
 
@@ -13,6 +14,7 @@ export default new VuexModule<ProductState>({
   namespaced: true,
   state: {
     fieldTypes: [],
+    products: [],
     product: null
   },
   mutations: {
@@ -20,6 +22,9 @@ export default new VuexModule<ProductState>({
   actions: {
     bindFieldTypes: firestoreAction(({bindFirestoreRef}) => {
       return bindFirestoreRef('fieldTypes', db.collection('classifier').where('name', '==', 'fieldTypes'))
+    }),
+    bindInsurerProducts: firestoreAction(({bindFirestoreRef}) => {
+      return bindFirestoreRef('products', db.collection('/insurers/sLZN4sLaKZvGC9OYTFpe/products'))
     }),
     bindInsurerProduct: firestoreAction(({bindFirestoreRef}, id: string) => {
       return bindFirestoreRef('product', db.collection('/insurers/sLZN4sLaKZvGC9OYTFpe/products').doc(id))

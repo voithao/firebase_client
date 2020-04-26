@@ -88,6 +88,12 @@ export class ProductFormDef {
 export class Product {
   /** Product code, used for easer product identification */
   code: string = ''
+  /** 
+   * Product type
+   * Value is id of the one record of object from
+   * classifier - PRODUCT_TYPES (example: personal_car) 
+   */
+  type: string = ''
   /** Issuer {@link Issuer}, product owner */
   company: string = ''
   /** Short product description */

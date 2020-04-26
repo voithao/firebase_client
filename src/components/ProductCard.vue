@@ -20,7 +20,7 @@ import { PolicyType } from "../schemas/classifier/classifier";
 @Component({
   components: {}
 })
-export default class HelloWorld extends Vue {
+export default class ProductCard extends Vue {
   @Prop() private type!: PolicyType;
 }
 </script>

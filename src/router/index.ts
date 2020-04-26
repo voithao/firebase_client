@@ -13,8 +13,15 @@ Vue.use(VueRouter)
     component: Home
   },{
     path: '/products',
-    name: 'Proudcts',
+    name: 'ProudctsList',
     component: () => import('@/views/Products.vue'),
+    meta: {
+      authRequred: true
+    }
+  },{
+    path: '/products/:id',
+    name: 'Proudct',
+    component: () => import('@/views/Product.vue'),
     meta: {
       authRequred: true
     }
