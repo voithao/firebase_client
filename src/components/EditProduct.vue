@@ -24,7 +24,7 @@
         </v-col>
       </v-row>
       <add-field-dialog />
-      <v-btn color="primary" class="ml-3" @click="savePolicy">Save policy</v-btn>
+      <v-btn color="primary" class="ml-3" @click="savePolicy">Save test policy</v-btn>
       <v-row>
         <v-col
           :cols="form.cols"
@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { Product } from "../schemas/insurer/products";
 import { firestore } from "firebase";
 const ProductField = () => import("@/components/ProductField.vue");
