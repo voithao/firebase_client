@@ -1,6 +1,6 @@
 <template>
-  <div v-if="$store.state.user.user">
-    <div v-if="$store.state.user.policy.policies">
+  <div>
+    <div v-if="$store.state.user.user && $store.state.user.policy.policies">
       Your active policies:
       <br />
       <div v-for="policy in $store.state.user.policy.policies" v-bind:key="policy.id">
@@ -9,7 +9,12 @@
       </div>
     </div>
     <v-row>
-      <v-col v-for="type in $store.state.classifier.productTypes" v-bind:key="type.id" cols="4">
+      <v-col
+        v-for="type in $store.state.classifier.productTypes"
+        v-bind:key="type.id"
+        lg="4"
+        md="6"
+      >
         <product-card :type="type" />
       </v-col>
     </v-row>

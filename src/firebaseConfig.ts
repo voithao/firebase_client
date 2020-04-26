@@ -21,7 +21,9 @@ auth.onAuthStateChanged(async user => {
   currentUser = user
   store.commit('user/updateUser', { user })
   store.dispatch('user/bindUserProfile')
-  store.dispatch('user/policy/bindPolicies')
+  if (currentUser) {
+    store.dispatch('user/policy/bindPolicies')
+  }
 })
 
 function getCurrentUser() {
