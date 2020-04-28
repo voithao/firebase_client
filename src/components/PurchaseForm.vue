@@ -1,5 +1,13 @@
 <template>
   <div>
+    <v-row
+      align="center"
+      justify="center"
+      style="height: 300px;"
+      v-if="(!($store.state.user.user && $store.state.user.policy.policies) || !($store.state.classifier.productTypes[1]))"
+    >
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    </v-row>
     <div v-if="$store.state.user.user && $store.state.user.policy.policies">
       Your active policies:
       <br />
