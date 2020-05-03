@@ -36,7 +36,7 @@
         <hr />
         <v-row>
           <v-col cols="12">
-            <h2 class="mt-4">Living place</h2>
+            <h2 class="mt-4">Apartment</h2>
           </v-col>
         </v-row>
         <v-row>
@@ -49,7 +49,27 @@
             <v-text-field label="Construction" required></v-text-field>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col cols="4">
+            <v-text-field label="Heating type" required></v-text-field>
+          </v-col>
+          <v-col cols="2">
+            <v-text-field label="Flor" required></v-text-field>
+          </v-col>
+          <v-col cols="2">
+            <v-text-field label="Size" required></v-text-field>
+          </v-col>
+          <v-col cols="2">
+            <v-text-field label="Year when built" required></v-text-field>
+          </v-col>
+          <v-col cols="2">
+            <v-text-field label="Last repair" required></v-text-field>
+          </v-col>
+        </v-row>
       </v-card-text>
+      <v-card-actions>
+        <v-btn color="primary">Save</v-btn>
+      </v-card-actions>
     </v-card>
   </div>
 </template>
