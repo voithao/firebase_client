@@ -32,7 +32,10 @@ Vue.use(VueRouter)
   },{
     path: '/profile',
     name: 'Profile',
-    component: () => import('@/views/user/Login.vue')
+    component: () => import('@/views/user/Profile.vue'),
+    meta: {
+      authRequred: true
+    }
   },{
     path: '/login',
     name: 'Login',

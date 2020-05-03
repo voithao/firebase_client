@@ -1,5 +1,16 @@
 <template>
   <div>
-    <h1>This is your profile</h1>
+    <user-profile />
   </div>
 </template>
+
+<script>
+const UserProfile = () => import("@/components/user/UserProfile.vue");
+
+export default {
+  name: "Home",
+  components: {
+    UserProfile
+  }
+};
+</script>

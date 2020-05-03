@@ -4,6 +4,9 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
+import Gravatar from 'vue-gravatar'
+
+Vue.component('v-gravatar', Gravatar)
 
 Vue.config.productionTip = false
 

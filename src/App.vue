@@ -1,17 +1,9 @@
 <template>
   <div id="app">
     <v-app>
-      <navigation-bar />
+      <nav-bar />
       <v-content>
-        <v-container fluid>
-          <v-row>
-            <v-col cols="1"></v-col>
-            <v-col cols="10">
-              <router-view />
-            </v-col>
-            <v-col cols="1"></v-col>
-          </v-row>
-        </v-container>
+        <app-container />
       </v-content>
     </v-app>
   </div>
@@ -19,11 +11,13 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-const NavigationBar = () => import("@/components/NavigationBar.vue");
+const NavBar = () => import("@/components/NavBar.vue");
+const AppContainer = () => import("@/components/AppContainer.vue");
 
 @Component({
   components: {
-    NavigationBar
+    AppContainer,
+    NavBar
   }
 })
 export default class AppView extends Vue {}
