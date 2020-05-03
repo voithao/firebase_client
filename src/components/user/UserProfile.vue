@@ -40,18 +40,41 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="6">
-            <v-text-field label="Type" required>
+          <v-col
+            v-if="$store.state.classifier.classifierHouseType && $store.state.classifier.classifierHouseType[0]"
+            cols="6"
+          >
+            <v-autocomplete
+              label="Type"
+              item-text="name"
+              item-value="id"
+              :return-object="false"
+              :items="$store.state.classifier.classifierHouseType[0].values"
+            >
               <v-icon slot="prepend" color="secondary">mdi-home-outline</v-icon>
-            </v-text-field>
+            </v-autocomplete>
           </v-col>
-          <v-col cols="6">
-            <v-text-field label="Construction" required></v-text-field>
+          <v-col
+            v-if="$store.state.classifier.classifierHouseConstruction && $store.state.classifier.classifierHouseConstruction[0]"
+            cols="6"
+          >
+            <v-autocomplete
+              item-text="name"
+              item-value="id"
+              :return-object="false"
+              :items="$store.state.classifier.classifierHouseConstruction[0].values"
+            ></v-autocomplete>
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="4">
-            <v-text-field label="Heating type" required></v-text-field>
+            <v-autocomplete
+              label="Heating type"
+              item-text="name"
+              item-value="id"
+              :return-object="false"
+              :items="$store.state.classifier.classifierHeatingType[0].values"
+            ></v-autocomplete>
           </v-col>
           <v-col cols="2">
             <v-text-field label="Flor" required></v-text-field>
@@ -82,5 +105,11 @@ export default class UserProfile extends Vue {
   private valid = false;
   private alert = false;
   private errorMsg = "";
+
+  mounted() {
+    this.$store.dispatch("classifier/getClassifier", "HouseType");
+    this.$store.dispatch("classifier/getClassifier", "HouseConstruction");
+    this.$store.dispatch("classifier/getClassifier", "HeatingType");
+  }
 }
 </script>
