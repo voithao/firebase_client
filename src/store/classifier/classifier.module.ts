@@ -2,31 +2,29 @@ import Vue from 'vue'
 import { firestoreAction } from 'vuexfire'
 import { db } from "@/firebaseConfig"
 import {VuexModule} from 'vuex-module-decorators'
+import {Classifier} from '@/schemas/classifier/classifier'
 
 type ClassifierState = {
-  productTypes: string[];
+  classifierHouseConstruction: Classifier | null;
+  classifierHouseType: Classifier | null;
+  classifierProductType: Classifier | null;
 }
 
 export default new VuexModule<ClassifierState>({
   namespaced: true,
   state: {
-    productTypes: []
+    classifierHouseConstruction: null,
+    classifierHouseType: null,
+    classifierProductType: null
   },
   mutations: {
-    setProductTypes(state, data) {
-      Vue.set(state, 'productTypes', data);
+    setClassifier(state, data) {
+      Vue.set(state, 'classifier' + data.name, data.values);
     }
   },
   actions: {
-    getProductTypes: firestoreAction(async ({commit}, id: string) => {
-      db.collection('classifier')
-        .where('name', '==', id).get()
-        .then(snapshot => {
-          if (!snapshot.empty && (snapshot.size === 1))
-          snapshot.forEach(doc => {
-            commit('setProductTypes', doc.data().values);
-          })
-        });
+    getClassifier: firestoreAction(({bindFirestoreRef}, id: string) => {
+      return bindFirestoreRef('classifier' + id, db.collection('classifier').where('name', '==', id))
     })
   }
 });

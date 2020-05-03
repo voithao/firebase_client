@@ -13,7 +13,7 @@
             item-text="name"
             item-value="id"
             :return-object="false"
-            :items="$store.state.classifier.productTypes"
+            :items="$store.state.classifier.classifierProductType"
           ></v-autocomplete>
         </v-col>
         <v-col cols="12">
@@ -66,7 +66,7 @@ export default class EditProduct extends Vue {
 
   mounted() {
     this.$store.dispatch("insurer/bindInsurers");
-    this.$store.dispatch("classifier/getProductTypes", "PRODUCT_TYPES");
+    this.$store.dispatch("classifier/getClassifier", "ProductType");
     this.$store.dispatch(
       "insurer/product/bindInsurerProduct",
       this.$route.params.id

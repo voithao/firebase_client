@@ -1,5 +1,5 @@
 {
-  "name": "PRODUCT_TYPES",
+  "name": "ProductType",
   "values": [
     {
       "id": "personal_car",
