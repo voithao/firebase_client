@@ -2,7 +2,7 @@
   <div>
     <v-app-bar app clipped-left color="secondary" dark>
       <v-app-bar-nav-icon @click="drawer = !drawer" />
-      <span class="title ml-3 mr-5">Voithao</span>
+      <span style="cursor: pointer" @click="$router.push('/')" class="title ml-3 mr-5">Voithao</span>
       <v-spacer></v-spacer>
       <div class="d-none d-sm-block">
         <v-btn to="/products" v-if="isInsurer" text>Products</v-btn>
