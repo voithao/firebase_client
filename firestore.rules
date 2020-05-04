@@ -27,5 +27,17 @@ service cloud.firestore {
         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin
       )
 		}
+    match /stripe_customers/{uid} {
+      allow read, write: if request.auth.uid == uid;
+      match /sources/{sourceId} {
+        allow read: if request.auth.uid == uid;
+      }
+      match /tokens/{sourceId} {
+        allow read,write: if request.auth.uid == uid;
+      }
+      match /charges/{chargeId} {
+        allow read, write: if request.auth.uid == uid;
+      }
+    }
   }
 }

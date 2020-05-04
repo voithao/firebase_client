@@ -1,7 +1,16 @@
-import * as functions from 'firebase-functions';
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+admin.initializeApp();
 import moment = require('moment')
+const stripe = require('stripe')(functions.config().stripe.token);
 
-export const policyPeriod = functions.https.onRequest((request, response): void => {
+// When a user is created, register them with Stripe
+export const createStripeCustomer = functions.auth.user().onCreate(async (user: any) => {
+  const customer = await stripe.customers.create({email: user.email});
+  return admin.firestore().collection('stripe_customers').doc(user.uid).set({customer_id: customer.id});
+});
+
+export const policyPeriod = functions.https.onRequest((request: any, response: any): void => {
   const dateFrom = moment(request.query.dateFrom as string, 'YYYY-MM-DD')
   let dateTo = moment(request.query.dateTo as string, 'YYYY-MM-DD')
   const period: string = request.query.period as string;
