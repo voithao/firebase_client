@@ -26,7 +26,7 @@
       align="center"
       justify="center"
       style="height: 300px;"
-      v-if="(!($store.state.user.user && $store.state.user.policy.policies) || !($store.state.classifier.classifierProductType && $store.state.classifier.classifierProductType[0] && $store.state.classifier.classifierProductType[0].values[1]))"
+      v-if="(!($store.state.user.policy.policies) || !($store.state.classifier.classifierProductType && $store.state.classifier.classifierProductType[0] && $store.state.classifier.classifierProductType[0].values[1]))"
     >
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </v-row>
