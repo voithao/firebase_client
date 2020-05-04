@@ -52,7 +52,9 @@ export class FormFieldDef {
   /**
    * Sets default value for field
    * You can use javascript functions here
-   * Example new Date()
+   * Examples:
+   *  new Date()
+   *  {{car.plateno}}
    */
   default: string | undefined
   /** 

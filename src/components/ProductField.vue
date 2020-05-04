@@ -97,7 +97,7 @@ export default class ProductField extends Vue {
           this.field.id
         ];
       } else {
-        let field: PolicyField = "no data";
+        let field: PolicyField = "";
         if (this.field.default) {
           field = eval(`${this.prepeareFunction(this.field.default)}`);
         } else {
@@ -113,12 +113,14 @@ export default class ProductField extends Vue {
             field = "";
           }
         }
-        this.$store.commit("user/policy/setPolicyField", {
-          form: this.form,
-          field: this.field.id,
-          value: field
-        });
-        return "";
+        if (field !== "") {
+          this.$store.commit("user/policy/setPolicyField", {
+            form: this.form,
+            field: this.field.id,
+            value: field
+          });
+        }
+        return field;
       }
     } else {
       console.log(
@@ -131,7 +133,8 @@ export default class ProductField extends Vue {
 
   prepeareFunction(funcText: string): string {
     return Mustache.render(funcText, {
-      policy: this.$store.state.user.policy.policy.data
+      policy: this.$store.state.user.policy.policy.data,
+      car: this.$store.state.user.profile.cars[0]
     });
   }
 
