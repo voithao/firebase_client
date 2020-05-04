@@ -6,9 +6,7 @@
     <v-card-text class="text--primary">{{type.description}}</v-card-text>
 
     <v-card-actions>
-      <v-btn color="primary" text>Learn more</v-btn>
-
-      <v-btn color="secondary" text>Get a quote</v-btn>
+      <v-btn color="primary" :to="`/quote/${type.id}`" text>Get a quote</v-btn>
     </v-card-actions>
   </v-card>
 </template>

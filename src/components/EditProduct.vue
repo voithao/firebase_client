@@ -25,25 +25,7 @@
       </v-row>
       <add-field-dialog />
       <v-btn color="primary" class="ml-3" @click="savePolicy">Save test policy</v-btn>
-      <v-row>
-        <v-col
-          :cols="form.cols"
-          v-for="form in $store.state.insurer.product.product.forms"
-          v-bind:key="form.name"
-        >
-          <v-form :ref="form.name">
-            <v-card outlined class="pa-4">
-              <product-field
-                v-for="field in form.fields"
-                v-bind:key="field.name"
-                :field="field"
-                :form="form.name"
-              />
-            </v-card>
-          </v-form>
-          Total fields: {{ form.fields.length }}
-        </v-col>
-      </v-row>
+      <PolicyForm :product="$store.state.insurer.product.product" />
     </span>
   </div>
 </template>
@@ -52,13 +34,15 @@
 import { Component, Vue } from "vue-property-decorator";
 import { Product } from "../schemas/insurer/products";
 import { firestore } from "firebase";
+const PolicyForm = () => import("@/components/policy/PolicyForm.vue");
 const ProductField = () => import("@/components/ProductField.vue");
 const AddFieldDialog = () => import("@/components/AddFieldDialog.vue");
 
 @Component({
   components: {
     ProductField,
-    AddFieldDialog
+    AddFieldDialog,
+    PolicyForm
   }
 })
 export default class EditProduct extends Vue {

@@ -26,6 +26,13 @@ Vue.use(VueRouter)
       authRequred: true
     }
   },{
+    path: '/quote/:type',
+    name: 'Quote',
+    component: () => import('@/views/Quote.vue'),
+    meta: {
+      authRequred: true
+    }
+  },{
     path: '/register',
     name: 'Register',
     component: () => import('@/views/user/Register.vue')
