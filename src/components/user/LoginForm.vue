@@ -56,7 +56,7 @@ export default class LoginForm extends Vue {
   }
 
   private async submit() {
-    const authresult = await await auth.signInWithEmailAndPassword(
+    const authresult = await auth.signInWithEmailAndPassword(
       this.auth.username,
       this.auth.password
     );

@@ -5,7 +5,6 @@
         <v-card>
           <v-card-text>
             <v-alert :value="alert" type="error">{{ errorMsg }}</v-alert>
-            <v-text-field v-model="auth.fullName" :counter="30" label="Full name" required></v-text-field>
             <v-text-field v-model="auth.email" :counter="100" label="E-mail" required></v-text-field>
             <v-text-field
               v-model="auth.password"
@@ -38,14 +37,13 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { auth } from "@/firebaseConfig";
 
 @Component({})
 export default class RegisterForm extends Vue {
   private valid = false;
   private auth = {
-    fullName: "",
     email: "",
-    username: "",
     password: "",
     password2: ""
   };
@@ -55,17 +53,15 @@ export default class RegisterForm extends Vue {
   private errorMsg = "";
 
   private async submit() {
-    // await users.register(this.auth);
-    // if (!users.error) {
-    //   if (this.$route.query && this.$route.query.next) {
-    //     this.$router.push(this.$route.query.next as string);
-    //   } else {
-    //     this.$router.push("/login");
-    //   }
-    // } else {
-    //   this.alert = true;
-    //   this.errorMsg = "auth.regfail";
-    // }
+    const authresult = await auth.createUserWithEmailAndPassword(
+      this.auth.email,
+      this.auth.password
+    );
+    if (authresult.user) {
+      this.$router.replace(
+        this.$route.query.redirect === null ? this.$route.query.redirect : "/"
+      );
+    }
   }
 }
 </script>
