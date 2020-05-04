@@ -6,7 +6,20 @@
 npm install
 ```
 
+## Firebase setup
+
 Add your firebase config to file - src/config.ts
+
+You can deploy firestore components with next commands:
+
+```
+# Rulles
+firebase deploy --only firestore
+# Hosting
+firebase deploy --only hosting
+# Functions
+firebase deploy --only functions
+```
 
 ### Compiles and hot-reloads for development
 
