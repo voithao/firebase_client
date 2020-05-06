@@ -1,13 +1,33 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
-import moment = require('moment')
+const moment = require('moment')
 const stripe = require('stripe')(functions.config().stripe.token);
 
 // When a user is created, register them with Stripe
 export const createStripeCustomer = functions.auth.user().onCreate(async (user: any) => {
   const customer = await stripe.customers.create({email: user.email});
   return admin.firestore().collection('stripe_customers').doc(user.uid).set({customer_id: customer.id});
+});
+
+export const addPaymentSource = functions.firestore.document('/stripe_customers/{userId}/tokens/{pushId}')
+  .onCreate(async (snap: any, context: any) => {
+    const source = snap.data();
+    const token = source.token;
+    if (source === null){
+      return null;
+    }
+
+    // TODO: introduce error reporting
+    // try {
+      const snapshot = await admin.firestore().collection('stripe_customers').doc(context.params.userId).get();
+      const customer =  snapshot.data().customer_id;
+      const response = await stripe.customers.createSource(customer, {source: token});
+      return admin.firestore().collection('stripe_customers').doc(context.params.userId).collection("sources").doc(response.fingerprint).set(response, {merge: true});
+    // } catch (error) {
+    //   await snap.ref.set({'error': userFacingMessage(error) },{merge:true});
+    //   return reportError(error, {user: context.params.userId});
+    // }
 });
 
 export const policyPeriod = functions.https.onRequest((request: any, response: any): void => {
