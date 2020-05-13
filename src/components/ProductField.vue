@@ -133,8 +133,15 @@ export default class ProductField extends Vue {
 
   prepeareFunction(funcText: string): string {
     return Mustache.render(funcText, {
-      policy: this.$store.state.user.policy.policy.data,
-      car: this.$store.state.user.profile.cars[0]
+      policy: this.$store.state.user.policy.policy
+        ? this.$store.state.user.policy.policy.data
+        : {},
+      car:
+        this.$store.state.user.profile &&
+        this.$store.state.user.profile.cars &&
+        this.$store.state.user.profile.cars.length > 0
+          ? this.$store.state.user.profile.cars.length[0]
+          : {}
     });
   }
 

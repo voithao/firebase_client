@@ -35,23 +35,29 @@ export default new VuexModule<UserState>({
     }
   },
   actions: {
-    bindUserProfile: firestoreAction(({bindFirestoreRef, state}) => {
+    bindUserProfile: firestoreAction(async ({bindFirestoreRef, state}) => {
       if (state.user) {
-        return bindFirestoreRef('profile', db.collection('users').doc(state.user.uid))
+        await bindFirestoreRef('profile', db.collection('users').doc(state.user.uid))
+        if (!state.profile) {
+          state.profile = {
+            cars: [],
+            firstname: '',
+            surename: ''
+          }
+        }
       }
     }),
-    updateUserProfile: firestoreAction(({ state, commit }) => {
+    updateUserProfile: firestoreAction(async ({ state, commit }) => {
       if (state.user && state.profile) {
-        return db
-          .collection('users')
-          .doc(state.user.uid)
-          .set(state.profile, {merge: true})
-          .catch((err) => {
-            commit('setError', err)
-          })
-          .then(() => {
-            commit('setError', '')
-          })
+        try {
+          await db
+            .collection('users')
+            .doc(state.user.uid)
+            .set(state.profile, {merge: true})
+          return commit('setError', '')
+        } catch (error) {
+          return commit('setError', error)
+        }
       }
     })
   },

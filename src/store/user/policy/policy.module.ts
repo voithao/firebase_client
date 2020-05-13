@@ -48,12 +48,18 @@ export default new VuexModule<PolicyState>({
         commit('setPolicy', policy)
       })
     }),
-    savePolicy: firestoreAction(({state}, id: string) => {
+    savePolicy: firestoreAction(({state}, id: string | null) => {
       if (state.policy) {
-        return db.collection('users').doc(auth.currentUser?.uid)
-          .collection('policies')
-          .doc(id)
-          .set(Object.assign({}, state.policy), { merge: true });
+        if (id) {
+          return db.collection('users').doc(auth.currentUser?.uid)
+            .collection('policies')
+            .doc(id)
+            .set(Object.assign({}, state.policy), { merge: true });
+        } else {
+          return db.collection('users').doc(auth.currentUser?.uid)
+            .collection('policies')
+            .add(Object.assign({}, state.policy));          
+        }
       }
     })
   }
